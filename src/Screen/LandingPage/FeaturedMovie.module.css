@@ -1,0 +1,89 @@
+/* FeaturedMovie.module.css */
+
+.container {
+    position: relative;
+    height: 600px;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 3rem; /* 12px in Tailwind */
+  }
+  
+  .imageWrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: transform 1s ease-in-out;
+  }
+  
+  .image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 1s;
+  }
+  
+  .opacityVisible {
+    opacity: 1;
+  }
+  
+  .opacityHidden {
+    opacity: 0;
+  }
+  
+  .gradientOverlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(31, 41, 55, 1), rgba(31, 41, 55, 0.7));
+  }
+  
+  .contentWrapper {
+    max-width: 7xl;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 6rem; /* 24px in Tailwind */
+  }
+  
+  .textContent {
+    max-width: 2xl;
+  }
+  
+  .title {
+    font-size: 3rem; /* 5xl in Tailwind */
+    font-weight: 700;
+    color: white;
+    margin-bottom: 1rem; /* 4px in Tailwind */
+  }
+  
+  .synopsis {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.125rem; /* lg in Tailwind */
+    margin-bottom: 1.5rem; /* 6px in Tailwind */
+  }
+  
+  .button {
+    background-color: #2563eb; /* blue-600 in Tailwind */
+    color: white;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* space-x-2 in Tailwind */
+    transition: transform 0.3s;
+  }
+  
+  .button:hover {
+    background-color: #1d4ed8; /* blue-700 in Tailwind */
+    transform: scale(1.05);
+  }
+  
+  .buttonIcon {
+    display: inline-block;
+  }
+  
