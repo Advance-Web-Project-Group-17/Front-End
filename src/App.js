@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from './Screen/LandingPage/LandingPage.jsx';
+import LoginPage from "./Screen/LoginPage/LoginPage.jsx";
+import RegisterPage from "./Screen/RegisterPage/RegisterPage.jsx";
 import './App.css';
 
 function App() {
@@ -22,7 +25,7 @@ function App() {
           title: movie.title,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           slidingImage: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
-          rating: movie.vote_average,
+          rating: movie.vote_average.toFixed(1),
           genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'), // Map genre IDs to genre names
           synopsis: movie.overview,
         }));
@@ -64,7 +67,13 @@ function App() {
 
   return (
     <div className="App">
-      <LandingPage movies={movies} genres={genres} />
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage movies={movies} />} />  
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
