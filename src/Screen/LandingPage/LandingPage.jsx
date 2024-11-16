@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { FaBars, FaPlay, FaStar, FaTimes } from "react-icons/fa";
+import { Navigate, Link } from "react-router-dom"
 import NavbarStyles from "./Navbar.module.css";
 import MovieGridStyles from "./MovieGrid.module.css";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
@@ -27,6 +27,30 @@ const LandingPage = ({movies, genres}) => {
     setShowModal(true);
   };
 
+  const handleNavBarButtonClick = (item) => {
+    const navigate = Navigate();
+    switch (item) {
+      case "Home":
+        navigate("/home");
+        break;
+      case "Movies":
+        navigate("/movies");
+        break;
+      case "TV Shows":
+        navigate("/tvshows");
+        break;
+      case "My List":
+        navigate("/mylist");
+        break;
+      case "Profile":
+        navigate("/profile");
+        break;
+      default:
+        navigate("/home");
+        break;
+    }
+  };
+
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
@@ -44,7 +68,7 @@ const LandingPage = ({movies, genres}) => {
 };
 
 // Navbar component
-const Navbar = ({ setCurrentView, setShowMenu, showMenu }) => (
+const Navbar = ({ handleNavBarButtonClick, setShowMenu, showMenu }) => (
   <nav className={NavbarStyles.navbar}>
     <div className={NavbarStyles.navbarContainer}>
       <div className={NavbarStyles.navbarLogoContainer}>
@@ -61,7 +85,7 @@ const Navbar = ({ setCurrentView, setShowMenu, showMenu }) => (
         {["Home", "Movies", "TV Shows", "My List", "Profile"].map((item) => (
           <button
             key={item}
-            onClick={() => setCurrentView(item.toLowerCase())}
+            onClick={() => handleNavBarButtonClick(item)} // Use handleNavBarButtonClick here
             className={NavbarStyles.navbarButton}
           >
             {item}
@@ -80,7 +104,7 @@ const Navbar = ({ setCurrentView, setShowMenu, showMenu }) => (
           <button
             key={item}
             onClick={() => {
-              setCurrentView(item.toLowerCase());
+              handleNavBarButtonClick(item);
               setShowMenu(false);
             }}
             className={NavbarStyles.navbarMenuItem}

@@ -1,0 +1,164 @@
+/* LoginForm.module.css */
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a202c;
+    padding: 1rem;
+  }
+  
+  .formWrapper {
+    max-width: 24rem;
+    width: 100%;
+    background-color: #2d3748;
+    padding: 2rem;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .header {
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+  
+  .subtitle {
+    margin-top: 0.5rem;
+    color: #a0aec0;
+  }
+  
+  .form {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .label {
+    color: #ffffff;
+  }
+  
+  .input {
+    appearance: none;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #4a5568;
+    border-radius: 0.5rem;
+    background-color: #4a5568;
+    color: #ffffff;
+    placeholder: #a0aec0;
+  }
+  
+  .input:focus {
+    outline: none;
+    ring: 2;
+    ring-color: #3182ce;
+    border-color: transparent;
+  }
+  
+  .options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .checkbox {
+    height: 1rem;
+    width: 1rem;
+    color: #3182ce;
+    border: 1px solid #4a5568;
+    border-radius: 0.25rem;
+    background-color: #4a5568;
+  }
+  
+  .checkboxLabel {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: #a0aec0;
+  }
+  
+  .link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #3182ce;
+    cursor: pointer;
+  }
+  
+  .button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: #3182ce;
+  }
+  
+  .button:hover {
+    background-color: #2b6cb0;
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+  }
+  
+  .dividerLine {
+    flex-grow: 1;
+    border-top: 1px solid #4a5568;
+  }
+  
+  .dividerText {
+    padding: 0 0.5rem;
+    background-color: #2d3748;
+    color: #a0aec0;
+  }
+  
+  .socialButtons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  
+  .socialButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: 1px solid #4a5568;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #a0aec0;
+    background-color: #4a5568;
+  }
+  
+  .socialButton:hover {
+    background-color: #4a5568;
+  }
+  
+  .signUpPrompt {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #a0aec0;
+  }
+  
+  p {
+    color: white;
+  }
