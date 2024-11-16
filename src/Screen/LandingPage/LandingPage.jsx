@@ -7,7 +7,6 @@ import FeaturedMovieStyles from "./FeaturedMovie.module.css";
 import LandingPageStyles from "./LandingPage.module.css";
 
 const LandingPage = ({movies, genres}) => {
-  const [currentView, setCurrentView] = useState("home");
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -32,14 +31,12 @@ const LandingPage = ({movies, genres}) => {
 
   return (
     <div className={LandingPageStyles.container}>
-      <Navbar setCurrentView={setCurrentView} setShowMenu={setMenuOpen} showMenu={menuOpen} />
+      <Navbar setShowMenu={setMenuOpen} showMenu={menuOpen} />
       <div className={LandingPageStyles.pageContent}>
-        {currentView === "home" && (
           <>
             <FeaturedMovie movies={movies} currentImageIndex={currentImageIndex} />
             <MovieGrid movies={movies} handleMovieClick={handleMovieClick} />
           </>
-        )}
       </div>
       {showModal && <MovieModal movie={selectedMovie} onClose={() => setShowModal(false)} />}
     </div>
