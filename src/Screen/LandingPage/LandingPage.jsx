@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { FaBars, FaPlay, FaStar, FaTimes } from "react-icons/fa";
+import { FaPlay, FaStar, FaTimes } from "react-icons/fa";
 import { Navigate, Link } from "react-router-dom"
-import NavbarStyles from "./Navbar.module.css";
 import MovieGridStyles from "./MovieGrid.module.css";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
 import LandingPageStyles from "./LandingPage.module.css";
@@ -27,35 +26,11 @@ const LandingPage = ({movies, genres}) => {
     setShowModal(true);
   };
 
-  const handleNavBarButtonClick = (item) => {
-    const navigate = Navigate();
-    switch (item) {
-      case "Home":
-        navigate("/home");
-        break;
-      case "Movies":
-        navigate("/movies");
-        break;
-      case "TV Shows":
-        navigate("/tvshows");
-        break;
-      case "My List":
-        navigate("/mylist");
-        break;
-      case "Profile":
-        navigate("/profile");
-        break;
-      default:
-        navigate("/home");
-        break;
-    }
-  };
-
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <div className={LandingPageStyles.container}>
-      <Navbar setShowMenu={setMenuOpen} showMenu={menuOpen} />
+      {/* <Navbar setShowMenu={setMenuOpen} showMenu={menuOpen} /> */}
       <div className={LandingPageStyles.pageContent}>
           <>
             <FeaturedMovie movies={movies} currentImageIndex={currentImageIndex} />
@@ -68,54 +43,7 @@ const LandingPage = ({movies, genres}) => {
 };
 
 // Navbar component
-const Navbar = ({ handleNavBarButtonClick, setShowMenu, showMenu }) => (
-  <nav className={NavbarStyles.navbar}>
-    <div className={NavbarStyles.navbarContainer}>
-      <div className={NavbarStyles.navbarLogoContainer}>
-        <img
-          src="https://images.unsplash.com/photo-1611162616475-46b635cb6868"
-          alt="Logo"
-          className={NavbarStyles.navbarLogo}
-          onError={(e) => {
-            e.target.src = "https://images.unsplash.com/photo-1611162616475-46b635cb6868";
-          }}
-        />
-      </div>
-      <div className={NavbarStyles.navbarButtonContainer}>
-        {["Home", "Movies", "TV Shows", "My List", "Profile"].map((item) => (
-          <button
-            key={item}
-            onClick={() => handleNavBarButtonClick(item)} // Use handleNavBarButtonClick here
-            className={NavbarStyles.navbarButton}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-      <div className={NavbarStyles.navbarMenuIconContainer}>
-        <button onClick={() => setShowMenu(!showMenu)} className={NavbarStyles.navbarButton}>
-          <FaBars size={24} />
-        </button>
-      </div>
-    </div>
-    {showMenu && (
-      <div className={NavbarStyles.navbarMenu}>
-        {["Home", "Movies", "TV Shows", "My List", "Profile"].map((item) => (
-          <button
-            key={item}
-            onClick={() => {
-              handleNavBarButtonClick(item);
-              setShowMenu(false);
-            }}
-            className={NavbarStyles.navbarMenuItem}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-    )}
-  </nav>
-);
+
 
 // FeaturedMovie component
 const FeaturedMovie = ({ movies, currentImageIndex }) => {
