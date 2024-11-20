@@ -9,7 +9,6 @@ const LandingPage = ({movies, genres}) => {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [menuOpen, setMenuOpen] = useState(false);
 
   // Slideshow logic
   useEffect(() => {
@@ -25,8 +24,6 @@ const LandingPage = ({movies, genres}) => {
     setSelectedMovie(movie);
     setShowModal(true);
   };
-
-  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
     <div className={LandingPageStyles.container}>
