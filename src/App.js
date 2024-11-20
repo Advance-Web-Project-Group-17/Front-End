@@ -68,8 +68,8 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
       <Router>
+      <Navbar />
         <Routes>
           <Route path="/" element={<LandingPage movies={movies} />} />  
           <Route path="/login" element={<LoginPage />} />
