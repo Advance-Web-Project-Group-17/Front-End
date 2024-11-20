@@ -24,6 +24,9 @@ const RegisterPage = () => {
         email: signupData.email,
         password: signupData.password,
       });
+
+      // Send request to tmdb to take user's token
+      const takeUserTmdbToken = await axios.get(`https://api`)
       
       console.log("Response:", response.data);
       if (response.status === 200) {

@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from './Screen/LandingPage/LandingPage.jsx';
 import LoginPage from "./Screen/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Screen/RegisterPage/RegisterPage.jsx";
+import Navbar from "./Screen/NavBar/NavBar.jsx";
 import './App.css';
 
 function App() {
@@ -67,6 +68,7 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage movies={movies} />} />  
