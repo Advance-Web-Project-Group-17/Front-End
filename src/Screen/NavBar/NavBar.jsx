@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import NavbarStyles from "./Navbar.module.css";
 
-const Navbar = ({}) => {
+const Navbar = ({ isLoggedIn }) => {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
 
@@ -21,19 +21,24 @@ const Navbar = ({}) => {
       case "My List":
         navigate("/mylist");
         break;
-      case "Login":
-        navigate("/login");
-        console.log("Navigating to login");
-        break;
       default:
         navigate("/");
         break;
     }
   };
 
+  const handleLoginClick = () => {
+    navigate("/login");
+  };
+
+  const handleProfileClick = () => {
+    navigate("/profile");
+  };
+
   return (
     <nav className={NavbarStyles.navbar}>
       <div className={NavbarStyles.navbarContainer}>
+        {/* Logo */}
         <div className={NavbarStyles.navbarLogoContainer}>
           <img
             src="https://images.unsplash.com/photo-1611162616475-46b635cb6868"
@@ -45,8 +50,10 @@ const Navbar = ({}) => {
             }}
           />
         </div>
+
+        {/* Navigation Buttons */}
         <div className={NavbarStyles.navbarButtonContainer}>
-          {["Home", "Movies", "TV Shows", "My List", "Login"].map((item) => (
+          {["Home", "Movies", "TV Shows", "My List"].map((item) => (
             <button
               key={item}
               onClick={() => handleNavBarButtonClick(item)}
@@ -55,7 +62,24 @@ const Navbar = ({}) => {
               {item}
             </button>
           ))}
+          {isLoggedIn ? (
+            <button
+              className={`${NavbarStyles.navbarButton} ${NavbarStyles.navbarAuthButton}`}
+              onClick={handleProfileClick}
+            >
+              Profile
+            </button>
+          ) : (
+            <button
+              className={`${NavbarStyles.navbarButton} ${NavbarStyles.navbarAuthButton}`}
+              onClick={handleLoginClick}
+            >
+              Login
+            </button>
+          )}
         </div>
+
+        {/* Mobile Menu Icon */}
         <div className={NavbarStyles.navbarMenuIconContainer}>
           <button
             onClick={() => setShowMenu((prev) => !prev)}
@@ -65,6 +89,8 @@ const Navbar = ({}) => {
           </button>
         </div>
       </div>
+
+      {/* Mobile Menu */}
       {showMenu && (
         <div className={NavbarStyles.navbarMenu}>
           {["Home", "Movies", "TV Shows", "My List", "Login"].map((item) => (

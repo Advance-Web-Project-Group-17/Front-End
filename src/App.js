@@ -10,6 +10,7 @@ import './App.css';
 function App() {
   const [movies, setMovies] = useState([]);
   const [genres, setGenres] = useState({});
+  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
 
   // Fetch movie data from TMDB API
   useEffect(() => {
@@ -69,7 +70,7 @@ function App() {
   return (
     <div className="App">
       <Router>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn}/>
         <Routes>
           <Route path="/" element={<LandingPage movies={movies} />} />  
           <Route path="/login" element={<LoginPage />} />

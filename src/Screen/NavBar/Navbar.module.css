@@ -28,11 +28,15 @@
   }
   
   .navbarButtonContainer {
-    display: none; /* hidden md:flex */
+    display: flex;
     align-items: center;
-    space-x: 2rem; /* space-x-8 */
+    gap: 2rem; /* Creates consistent spacing between all buttons */
   }
   
+  .navbarAuthButton {
+    margin-left: 0rem; /* Adds spacing between the main nav buttons and the Login/Profile button */
+  }
+
   .navbarButton {
     color: #e2e8f0; /* text-gray-300 */
     font-weight: 500; /* font-medium */

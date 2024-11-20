@@ -20,9 +20,9 @@ const LoginPage = () => {
 
       // Save token to localStorage or context if login is successful
       if (response.status === 200) {
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("id", response.data.id)
-        localStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("id", response.data.id)
+        sessionStorage.setItem("isLoggedIn", "true");
         setMessage("Login successful!");
         //Redirect to homepage
       }
