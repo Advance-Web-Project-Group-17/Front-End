@@ -18,7 +18,7 @@ function App() {
       try {
         const apiKey = "01317230958149c57ec3ae676ea0850a";
         const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`
+          `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
         );
         
         // Map genre IDs to genre names
