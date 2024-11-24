@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, Router } from "react-router-dom";
 import axios from "axios";
 import styles from "./RegisterPage.module.css";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
@@ -13,6 +13,16 @@ const RegisterPage = () => {
     confirmPassword: "",
   });
 
+  const [LoggedIn, setLoggedIn] = useState(false);
+
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (LoggedIn) {
+      return navigate("/login");
+    }
+  }, [LoggedIn]);
+
   const handleSignup = async (e) => {
     e.preventDefault();
     console.log("Signup data:", signupData);
@@ -25,12 +35,9 @@ const RegisterPage = () => {
         password: signupData.password,
       });
 
-      // Send request to tmdb to take user's token
-      const takeUserTmdbToken = await axios.get(`https://api`)
-      
       console.log("Response:", response.data);
-      if (response.status === 200) {
-        <Navigate to='/login'/>
+      if (response.status === 201) {
+        setLoggedIn(true);
       }
     } catch (error) {
       console.error("Error during signup:", error);
