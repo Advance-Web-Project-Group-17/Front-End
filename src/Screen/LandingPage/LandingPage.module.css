@@ -103,3 +103,13 @@
     transition: color 0.3s ease;
   }
 
+  .detailsContainer {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2d3748; /* bg-gray-800 */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  }
+  
+

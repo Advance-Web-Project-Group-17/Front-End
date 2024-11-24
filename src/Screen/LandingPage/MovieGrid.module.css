@@ -1,101 +1,85 @@
-/* MovieGrid.module.css */
-
 .container {
-    max-width: 80rem; /* max-w-7xl */
-    margin: 0 auto;
-    padding-left: 1.5rem; /* px-6 */
-    padding-right: 1.5rem; /* px-6 */
+  max-width: 80rem; /* max-w-7xl */
+  margin: 0 auto;
+  padding: 1rem; /* General padding for the grid container */
+}
+
+.title {
+  font-size: 2.25rem; /* text-4xl */
+  font-weight: 700; /* font-bold */
+  color: white;
+  margin-bottom: 2rem; /* mb-8 */
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns per row */
+  gap: 1.5rem; /* Maintain spacing between cards in the row */
+  margin-bottom: 2rem; /* Add padding between rows */
+}
+
+@media (max-width: 1024px) {
+  .gridRow {
+    grid-template-columns: repeat(2, 1fr); /* Adjust for smaller screens */
   }
-  
-  .title {
-    font-size: 2.25rem; /* text-4xl */
-    font-weight: 700; /* font-bold */
-    color: white;
-    margin-top: 3rem; /* mt-12 */
-    margin-bottom: 2rem; /* mb-8 */
+}
+
+.card {
+  background-color: #1f2937; /* bg-gray-900 */
+  border-radius: 1rem; /* rounded-xl */
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  border: 1px solid #2d3748; /* border-gray-800 */
+}
+
+.card:hover {
+  transform: scale(1.05);
+  border-color: #2563eb; /* hover:border-blue-600 */
+}
+
+.cardImage {
+  width: 100%;
+  height: 20rem; /* Fixed height for movie cards */
+  object-fit: cover;
+}
+
+.cardOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, #000, rgba(0, 0, 0, 0.7), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  padding: 1.5rem; /* Padding for overlay content */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.card:hover .cardOverlay {
+  opacity: 1;
+}
+
+.cardTitle {
+  font-size: 1.25rem; /* text-2xl */
+  font-weight: 700; /* font-bold */
+  color: white;
+  margin-bottom: 0.5rem; /* mb-2 */
+}
+
+.detailsContainer {
+  grid-column: 1 / -1; /* Span the full grid width */
+  background-color: #2d3748; /* bg-gray-800 */
+  color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  margin-top: 1rem; /* Space between rows and details */
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 1024px) {
+  .detailsContainer {
+    grid-column: 1 / -1; /* Adjust for smaller screen sizes */
   }
-  
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem; /* gap-8 */
-  }
-  
-  @media (min-width: 640px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr); /* sm:grid-cols-2 */
-    }
-  }
-  
-  @media (min-width: 1024px) {
-    .grid {
-      grid-template-columns: repeat(3, 1fr); /* lg:grid-cols-3 */
-    }
-  }
-  
-  @media (min-width: 1280px) {
-    .grid {
-      grid-template-columns: repeat(4, 1fr); /* xl:grid-cols-4 */
-    }
-  }
-  
-  .card {
-    position: relative;
-    background-color: #1f2937; /* bg-gray-900 */
-    border-radius: 1rem; /* rounded-xl */
-    overflow: hidden;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid #2d3748; /* border-gray-800 */
-  }
-  
-  .card:hover {
-    transform: scale(1.05);
-    border-color: #2563eb; /* hover:border-blue-600 */
-  }
-  
-  .cardImage {
-    width: 100%;
-    height: 20rem; /* h-80 */
-    object-fit: cover;
-  }
-  
-  .cardOverlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, #000, rgba(0, 0, 0, 0.7), transparent);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    padding: 1.5rem; /* p-6 */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-  }
-  
-  .card:hover .cardOverlay {
-    opacity: 1;
-  }
-  
-  .cardTitle {
-    font-size: 1.25rem; /* text-2xl */
-    font-weight: 700; /* font-bold */
-    color: white;
-    margin-bottom: 0.5rem; /* mb-2 */
-  }
-  
-  .cardDetails {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* space-x-4 */
-  }
-  
-  .rating {
-    color: #fbbf24; /* text-yellow-400 */
-    display: flex;
-    align-items: center;
-  }
-  
-  .genre {
-    color: #d1d5db; /* text-gray-300 */
-  }
-  
+}
