@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { FaPlay, FaStar, FaTimes } from "react-icons/fa";
-import { Navigate, Link } from "react-router-dom"
 import MovieGridStyles from "./MovieGrid.module.css";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
 import LandingPageStyles from "./LandingPage.module.css";
