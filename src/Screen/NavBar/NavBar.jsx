@@ -48,6 +48,7 @@ const Navbar = ({ isLoggedIn }) => {
               e.target.src =
                 "https://images.unsplash.com/photo-1611162616475-46b635cb6868";
             }}
+            onClick={() => navigate("/")}
           />
         </div>
 

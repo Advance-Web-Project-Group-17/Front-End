@@ -25,6 +25,7 @@
     height: 2rem; /* h-8 */
     width: 6rem; /* w-24 */
     object-fit: contain;
+    cursor: pointer;
   }
   
   .navbarButtonContainer {
