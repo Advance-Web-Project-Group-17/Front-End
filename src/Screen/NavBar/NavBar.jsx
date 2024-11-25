@@ -18,8 +18,8 @@ const Navbar = ({ isLoggedIn }) => {
       case "TV Shows":
         navigate("/tvshows");
         break;
-      case "My List":
-        navigate("/mylist");
+      case "Show Times":
+        navigate("/show");
         break;
       default:
         navigate("/");
@@ -54,7 +54,7 @@ const Navbar = ({ isLoggedIn }) => {
 
         {/* Navigation Buttons */}
         <div className={NavbarStyles.navbarButtonContainer}>
-          {["Home", "Movies", "TV Shows", "My List"].map((item) => (
+          {["Home", "Movies", "TV Shows", "Show Times"].map((item) => (
             <button
               key={item}
               onClick={() => handleNavBarButtonClick(item)}
