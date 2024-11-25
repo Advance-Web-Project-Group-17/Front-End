@@ -63,7 +63,7 @@ function App() {
 
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
-          title: movie.title,
+          title: movie.title || movie.name,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           slidingImage: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
           rating: movie.vote_average.toFixed(1),
