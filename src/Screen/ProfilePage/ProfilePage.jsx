@@ -57,17 +57,17 @@ const ProfilePage = ({setIsLoggedIn}) => {
             </div>
           </div>
           {/* Edit Profile Button */}
-          <button className={styles.editProfileBtn}>
+          <button className={styles.editProfileBtn} onClick={() => {Navigate("/edit")}}>
             Edit Profile
           </button>
         </div>
         {/* Bio Section */}
-        <div className={styles.profileBioSection}>
+        {/* <div className={styles.profileBioSection}>
           <h3 className={styles.profileBioTitle}>Bio</h3>
           <p className={styles.profileBioText}>
             {userData?.bio || ""}
           </p>
-        </div>
+        </div> */}
         {/* Statistics */}
         {/* <div className={styles.profileStats}>
           <div className={styles.profileStatCard}>
