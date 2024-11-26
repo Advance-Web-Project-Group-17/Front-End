@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./LoginPage.module.css";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 
-const LoginPage = () => {
+const LoginPage = ({setIsLoggedIn}) => {
   const [loginData, setLoginData] = useState({ user_name: "", password: "" });
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,7 +24,10 @@ const LoginPage = () => {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("id", response.data.id)
         sessionStorage.setItem("isLoggedIn", "true");
+        setIsLoggedIn(true)
         setMessage("Login successful!");
+        navigate("/")
+        // setLoggedIn(true);
         //Redirect to homepage
       }
     } catch (error) {

@@ -7,6 +7,8 @@ import RegisterPage from "./Screen/RegisterPage/RegisterPage.jsx";
 import Navbar from "./Screen/NavBar/NavBar.jsx";
 import MoviesPage from "./Screen/MoviesPage/MoviesPage.jsx";
 import ShowTimesPage from "./Screen/ShowTimesPage/ShowTimesPage.jsx";
+import ProfilePage from "./Screen/ProfilePage/ProfilePage.jsx";
+import EditProfilePage from "./Screen/EditProfilePage/EditProfilePage.jsx";
 import './App.css';
 
 function App() {
@@ -116,8 +118,10 @@ function App() {
           <Route path="/" element={<LandingPage movies={trendingMovies} />} />
           <Route path="/movies" element={<MoviesPage movies={movies} />} />
           <Route path="/show" element={<ShowTimesPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/profile" element={<ProfilePage setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route path="/edit" element={<EditProfilePage />} />
         </Routes>
       </Router>
     </div>

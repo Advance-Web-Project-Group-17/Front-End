@@ -9,7 +9,8 @@ const ShowTimesPage = () => {
   useEffect(() => {
     const fetchSchedule = async () => {
       try {
-        const response = await axios.get("https://www.finnkino.fi/xml/Schedule/?area=1018&dt=25.11.2024");
+        let d = new Date();
+        const response = await axios.get(`https://www.finnkino.fi/xml/Schedule/?area=1018&dt=${d}`);
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(response.data, "text/xml");
 

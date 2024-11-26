@@ -19,7 +19,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (LoggedIn) {
-      return navigate("/login");
+      return navigate("/edit");
     }
   }, [LoggedIn]);
 
@@ -37,6 +37,7 @@ const RegisterPage = () => {
 
       console.log("Response:", response.data);
       if (response.status === 201) {
+        sessionStorage.setItem("id", response.data.user_id);
         setLoggedIn(true);
       }
     } catch (error) {
