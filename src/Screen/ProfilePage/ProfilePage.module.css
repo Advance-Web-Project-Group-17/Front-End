@@ -1,0 +1,153 @@
+/* Container */
+.profileContainer {
+  /* max-width: 1200px; */
+  margin: 0 auto;
+  /* padding: 16px; */
+  background-color: #1f2937;
+  min-height: 100vh;
+  min-width: 100vh;
+  padding: 5rem;
+}
+/* Profile Card */
+.profileCard {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  padding: 24px;
+  padding: 5rem;
+  background-color: #3B82F6;
+}
+
+/* Profile Header */
+.profileHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+@media (min-width: 768px) {
+  .profileHeader {
+    flex-direction: row;
+  }
+}
+
+/* Avatar */
+.profileAvatar {
+  width: 8rem; /* w-32 */
+  height: 8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 768px) {
+  .profileAvatar {
+    margin-right: 24px;
+    margin-bottom: 0;
+  }
+}
+
+/* Username */
+.profileUsername {
+  font-size: 2rem; /* text-3xl */
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Bio Text */
+.profileBio {
+  color: #4b5563; /* text-gray-600 */
+  margin-bottom: 8px;
+}
+
+/* Statistics Grid */
+.profileStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+/* Stat Card */
+.profileStatCard {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  padding: 16px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Stat Title */
+.profileStatTitle {
+  font-weight: 600;
+}
+
+/* Stat Number */
+.profileStatNumber {
+  font-size: 2rem; /* text-2xl */
+  font-weight: bold;
+  color: #2563eb; /* text-blue-600 */
+}
+
+/* Logout Button */
+.logoutBtn {
+  width: 100%;
+  background-color: #dc2626; /* bg-red-600 */
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.logoutBtn:hover {
+  background-color: #b91c1c; /* hover:bg-red-700 */
+}
+
+/* Profile Header */
+.profileHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profileInfo {
+  display: flex;
+  align-items: center;
+}
+
+/* Edit Profile Button */
+.editProfileBtn {
+  background-color: #2563eb; /* Blue button */
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.editProfileBtn:hover {
+  background-color: #1d4ed8; /* Darker blue on hover */
+}
+
+/* Avatar */
+.profileAvatar {
+  width: 8rem; /* w-32 */
+  height: 8rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 24px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+  .profileHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .editProfileBtn {
+    margin-top: 16px;
+  }
+}
