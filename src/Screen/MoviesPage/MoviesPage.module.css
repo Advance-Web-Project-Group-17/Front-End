@@ -75,7 +75,7 @@
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-end; /* To position the heart button within this container */
 }
 
 .card:hover .cardOverlay {
@@ -104,6 +104,30 @@
 .genre {
   color: #d1d5db;
 }
+
+/* Styling for heart button */
+.heartButton {
+  position: absolute;
+  top: 1rem; /* Adjust top and right as needed */
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1.5rem; /* Adjust the size of the heart */
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 0;
+}
+
+.heartButton:hover {
+  color: red; 
+  background-color: transparent;
+}
+
+.heartIcon {
+  pointer-events: none; /* Prevent icon from interfering with button click */
+}
+
 
 /* Search Bar Styles */
 .searchBar {

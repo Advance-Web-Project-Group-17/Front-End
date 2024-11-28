@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaSearch, FaStar } from "react-icons/fa";
+import { FaSearch, FaStar, FaHeart } from "react-icons/fa";
 import styles from "./TVShowGrid.module.css"; // Importing the CSS module
 
 const TVShowGrid = ({ movies, handleMovieClick }) => {
@@ -149,7 +149,7 @@ const MovieGrid = ({ movies, handleMovieClick }) => (
 );
 
 // MovieCard Component
-const MovieCard = ({ movie, handleMovieClick }) => (
+const MovieCard = ({ movie, handleMovieClick, handleFavorite }) => (
   <div className={styles.card} onClick={() => handleMovieClick(movie)}>
     <img src={movie.image} alt={movie.title} className={styles.cardImage} />
     <div className={styles.cardOverlay}>
@@ -160,6 +160,16 @@ const MovieCard = ({ movie, handleMovieClick }) => (
         </div>
         <div className={styles.genre}>{movie.genres.join(", ")}</div>
       </div>
+      {/* Heart button in the top-right */}
+      <button
+        className={styles.heartButton}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent triggering card click event
+          handleFavorite(movie); // Call handleFavorite function when clicked
+        }}
+      >
+        <FaHeart className={styles.heartIcon} />
+      </button>
     </div>
   </div>
 );
