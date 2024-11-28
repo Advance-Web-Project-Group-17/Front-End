@@ -3,24 +3,20 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './ProfilePage.module.css'; // Import the CSS module
 
-
-const ProfilePage = ({setIsLoggedIn}) => {
+const ProfilePage = ({ setIsLoggedIn }) => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState();
-
-  const Navigate = useNavigate();
 
   // Fetch user's data from backend
   const fetchUserData = async () => {
-    const user_id = sessionStorage.getItem("id");
+    const user_id = sessionStorage.getItem('id');
     if (user_id) {
       try {
         const response = await axios.get(`${baseUrl}/user/profile/${user_id}`);
-        console.log(response.data)
         setUserData(response.data);
       } catch (error) {
-        console.error("Failed to fetch user data:", error);
+        console.error('Failed to fetch user data:', error);
       }
     }
   };
@@ -29,14 +25,27 @@ const ProfilePage = ({setIsLoggedIn}) => {
     fetchUserData();
   }, []);
 
-  const onLogout = () => {
-    sessionStorage.removeItem("id");
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("token");
-    setIsLoggedIn(false);
-    Navigate('/');
-  };
+  const handleDeleteAccount = async () => {
+    const user_id = sessionStorage.getItem('id');
+    try {
+      const response = await axios.delete(`${baseUrl}/user/delete/${user_id}`);
+      if(response.status === 200){
+        onLogout();
+      } else if(response.status === 400){
+        alert("You are an admin of some group please grant more admin")
+      }
+    } catch (error) {
+      console.error('Failed to delete account:', error);
+    }
+  }
 
+  const onLogout = () => {
+    sessionStorage.removeItem('id');
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('token');
+    setIsLoggedIn(false);
+    navigate('/');
+  };
 
   return (
     <div className={styles.profileContainer}>
@@ -45,36 +54,45 @@ const ProfilePage = ({setIsLoggedIn}) => {
         <div className={styles.profileHeader}>
           <div className={styles.profileInfo}>
             <img
-              src={"https://robohash.org/example"} // Placeholder avatar if no profile picture
+              src={userData?.profile_image || 'https://robohash.org/example'}
               alt="Profile"
               className={styles.profileAvatar}
             />
             <div>
               <h2 className={styles.profileUsername}>
-                Welcome, {userData?.nick_name || "User"}!
+                {userData?.nick_name || 'User'}
               </h2>
-              <p className={styles.profileLocation}>{userData?.location || "Unknown Location"}</p>
+              <p className={styles.profileLocation}>
+                {userData?.location || 'Location not specified'}
+              </p>
             </div>
           </div>
-          {/* Edit Profile Button */}
-          <button className={styles.editProfileBtn} onClick={() => {Navigate("/edit")}}>
+        </div>
+
+        {/* Bio Section */}
+        <div className={styles.profileBioSection}>
+          <h3 className={styles.profileBioTitle}>Groups</h3>
+          <p className={styles.profileBioText}>
+            {userData?.group_name || 'You are not in any group!'}
+          </p>
+        </div>
+
+        {/* Action Buttons */}
+        <div className={styles.profileActions}>
+          <button
+            className={styles.editProfileBtn}
+            onClick={() => navigate('/edit')}
+          >
             Edit Profile
           </button>
+          <button
+            className={styles.deleteAccountBtn}
+            onClick={() => handleDeleteAccount()}
+          >
+            Delete Account
+          </button>
         </div>
-        {/* Bio Section */}
-        {/* <div className={styles.profileBioSection}>
-          <h3 className={styles.profileBioTitle}>Bio</h3>
-          <p className={styles.profileBioText}>
-            {userData?.bio || ""}
-          </p>
-        </div> */}
-        {/* Statistics */}
-        {/* <div className={styles.profileStats}>
-          <div className={styles.profileStatCard}>
-            <h4 className={styles.profileStatTitle}>Spots Uploaded</h4>
-            <p className={styles.profileStatNumber}>{userData?.post_count}</p> 
-          </div>
-        </div> */}
+
         {/* Logout Button */}
         <button onClick={onLogout} className={styles.logoutBtn}>
           Logout

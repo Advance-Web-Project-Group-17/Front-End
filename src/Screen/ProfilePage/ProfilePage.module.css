@@ -1,20 +1,22 @@
 /* Container */
 .profileContainer {
-  /* max-width: 1200px; */
-  margin: 0 auto;
-  /* padding: 16px; */
-  background-color: #1f2937;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6; /* Light gray background */
   min-height: 100vh;
-  min-width: 100vh;
-  padding: 5rem;
+  padding: 2rem;
 }
+
 /* Profile Card */
 .profileCard {
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
-  padding: 24px;
-  padding: 5rem;
-  background-color: #3B82F6;
+  background-color: #ffffff; /* White card */
+  border-radius: 16px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  text-align: center;
 }
 
 /* Profile Header */
@@ -22,132 +24,103 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 24px;
-}
-
-@media (min-width: 768px) {
-  .profileHeader {
-    flex-direction: row;
-  }
+  margin-bottom: 1.5rem;
 }
 
 /* Avatar */
 .profileAvatar {
-  width: 8rem; /* w-32 */
-  height: 8rem;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 16px;
-}
-
-@media (min-width: 768px) {
-  .profileAvatar {
-    margin-right: 24px;
-    margin-bottom: 0;
-  }
+  border: 4px solid #2563eb; /* Blue border */
+  margin-bottom: 1rem;
 }
 
 /* Username */
 .profileUsername {
-  font-size: 2rem; /* text-3xl */
+  font-size: 1.5rem;
   font-weight: bold;
-  margin-bottom: 8px;
+  color: #1f2937; /* Dark gray */
 }
 
-/* Bio Text */
-.profileBio {
-  color: #4b5563; /* text-gray-600 */
-  margin-bottom: 8px;
+.profileLocation {
+  font-size: 0.875rem;
+  color: #6b7280; /* Gray */
 }
 
-/* Statistics Grid */
-.profileStats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  margin-bottom: 24px;
+/* Bio Section */
+.profileBioSection {
+  margin: 2rem 0;
+  text-align: left;
 }
 
-/* Stat Card */
-.profileStatCard {
-  background-color: #f3f4f6; /* bg-gray-100 */
-  padding: 16px;
-  border-radius: 8px;
-  text-align: center;
-}
-
-/* Stat Title */
-.profileStatTitle {
-  font-weight: 600;
-}
-
-/* Stat Number */
-.profileStatNumber {
-  font-size: 2rem; /* text-2xl */
+.profileBioTitle {
+  font-size: 1.25rem;
   font-weight: bold;
-  color: #2563eb; /* text-blue-600 */
+  color: #1f2937; /* Dark gray */
+  margin-bottom: 0.5rem;
 }
 
-/* Logout Button */
-.logoutBtn {
-  width: 100%;
-  background-color: #dc2626; /* bg-red-600 */
-  color: white;
-  padding: 12px 16px;
-  border-radius: 8px;
-  transition: background-color 0.3s ease;
+.profileBioText {
+  font-size: 1rem;
+  color: #4b5563; /* Gray */
+  line-height: 1.5;
 }
 
-.logoutBtn:hover {
-  background-color: #b91c1c; /* hover:bg-red-700 */
-}
-
-/* Profile Header */
-.profileHeader {
+/* Action Buttons */
+.profileActions {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 
-.profileInfo {
-  display: flex;
-  align-items: center;
-}
-
-/* Edit Profile Button */
 .editProfileBtn {
+  flex: 1;
   background-color: #2563eb; /* Blue button */
   color: white;
-  padding: 8px 16px;
+  padding: 0.75rem 1rem;
+  border: none;
   border-radius: 8px;
   font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .editProfileBtn:hover {
-  background-color: #1d4ed8; /* Darker blue on hover */
+  background-color: #1d4ed8; /* Darker blue */
 }
 
-/* Avatar */
-.profileAvatar {
-  width: 8rem; /* w-32 */
-  height: 8rem;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-right: 24px;
+.deleteAccountBtn {
+  flex: 1;
+  background-color: #dc2626; /* Red button */
+  color: white;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .profileHeader {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.deleteAccountBtn:hover {
+  background-color: #b91c1c; /* Darker red */
+}
 
-  .editProfileBtn {
-    margin-top: 16px;
-  }
+/* Logout Button */
+.logoutBtn {
+  background-color: #d1d5db; /* Gray button */
+  color: #1f2937; /* Dark gray text */
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.logoutBtn:hover {
+  background-color: #9ca3af; /* Darker gray */
 }
