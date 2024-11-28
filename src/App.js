@@ -9,9 +9,8 @@ import MoviesPage from "./Screen/MoviesPage/MoviesPage.jsx";
 import ShowTimesPage from "./Screen/ShowTimesPage/ShowTimesPage.jsx";
 import ProfilePage from "./Screen/ProfilePage/ProfilePage.jsx";
 import EditProfilePage from "./Screen/EditProfilePage/EditProfilePage.jsx";
-import './App.css';
-import HeroSection from "./Screen/HomePage/HomePage.jsx";
 import TVShowGrid from "./Screen/TvshowPage/TVShowGrid.jsx";
+import './App.css';
 
 function App() {
   const [trendingMovies, setTrendingMovies] = useState([]);
@@ -113,33 +112,6 @@ function App() {
     }
   }, [genres]);
 
-// Fetch trending TV shows from TMDB API
-// useEffect(() => {
-//   const fetchTrendingTVShows = async () => {
-//     try {
-//       const apiKey = "01317230958149c57ec3ae676ea0850a";
-//       const response = await axios.get(
-//         `https://api.themoviedb.org/3/trending/tv/day?api_key=${apiKey}`
-//       );
-
-//       // Map genre IDs to genre names
-//       const tvShowsData = response.data.results.map((tvShow) => ({
-//         id: tvShow.id,
-//         title: tvShow.name, // Use 'name' for TV shows instead of 'title'
-//         image: `https://image.tmdb.org/t/p/w500${tvShow.poster_path}`,
-//         slidingImage: `https://image.tmdb.org/t/p/w1280${tvShow.backdrop_path}`,
-//         rating: tvShow.vote_average.toFixed(1),
-//         genres: tvShow.genre_ids.map((id) => genres[id] || 'Unknown'), // Map genre IDs to genre names
-//         synopsis: tvShow.overview,
-//       }));
-//       setTrendingTVShows(tvShowsData);
-//     } catch (e) {
-//       console.error("Error fetching TV shows:", e);
-//     }
-//   };
-
-//   fetchTrendingTVShows();
-// }, [genres]); // Depend on genres to ensure TV shows data updates once genres are loaded
 
 useEffect(() => {
   const fetchTVShows = async () => {

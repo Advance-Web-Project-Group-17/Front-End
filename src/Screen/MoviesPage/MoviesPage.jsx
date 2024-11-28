@@ -43,7 +43,7 @@ const SearchBar = ({ setSearchResults }) => {
       }
 
       const response = await axios.get(
-        `${baseUrl}/movie/search/?${selectedCategory}=${input}`
+        `${baseUrl}/search/movie?${selectedCategory}=${input}`
       );
 
       // Accessing the 'results' key which contains the array of movies
