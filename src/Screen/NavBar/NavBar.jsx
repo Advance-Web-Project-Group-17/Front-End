@@ -94,7 +94,7 @@ const Navbar = ({ isLoggedIn }) => {
       {/* Mobile Menu */}
       {showMenu && (
         <div className={NavbarStyles.navbarMenu}>
-          {["Home", "Movies", "TV Shows", "My List", "Login"].map((item) => (
+          {["Home", "Movies", "TV Shows", "Show Times"].map((item) => (
             <button
               key={item}
               onClick={() => {
@@ -106,6 +106,21 @@ const Navbar = ({ isLoggedIn }) => {
               {item}
             </button>
           ))}
+          {isLoggedIn ? (
+            <button
+              className={`${NavbarStyles.navbarButton} ${NavbarStyles.navbarAuthButton}`}
+              onClick={handleProfileClick}
+            >
+              Profile
+            </button>
+          ) : (
+            <button
+              className={`${NavbarStyles.navbarButton} ${NavbarStyles.navbarAuthButton}`}
+              onClick={handleLoginClick}
+            >
+              Login
+            </button>
+          )}
         </div>
       )}
     </nav>

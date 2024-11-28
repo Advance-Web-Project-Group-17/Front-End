@@ -1,92 +1,95 @@
 /* Navbar.module.css */
 .navbar {
-    background-color: #1a202c; /* bg-gray-900 */
-    padding: 1rem 1.5rem; /* px-6 py-4 */
-    position: fixed;
-    width: 100%;
-    z-index: 40;
-    border-bottom: 1px solid #2d3748; /* border-b border-gray-800 */
-  }
-  
-  .navbarContainer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 80rem; /* max-w-7xl */
-    margin: 0 auto;
-  }
-  
-  .navbarLogoContainer {
-    display: flex;
-    align-items: center;
-  }
-  
-  .navbarLogo {
-    height: 2rem; /* h-8 */
-    width: 6rem; /* w-24 */
-    object-fit: contain;
-    cursor: pointer;
-  }
-  
+  background-color: #1a202c; /* bg-gray-900 */
+  padding: 1rem 1.5rem; /* px-6 py-4 */
+  position: fixed;
+  width: 100%;
+  z-index: 40;
+  border-bottom: 1px solid #2d3748; /* border-b border-gray-800 */
+}
+
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 80rem; /* max-w-7xl */
+  margin: 0 auto;
+}
+
+.navbarLogoContainer {
+  display: flex;
+  align-items: center;
+}
+
+.navbarLogo {
+  height: 2rem; /* h-8 */
+  width: 6rem; /* w-24 */
+  object-fit: contain;
+  cursor: pointer;
+}
+
+.navbarButtonContainer {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Creates consistent spacing between all buttons */
+}
+
+.navbarAuthButton {
+  margin-left: 0rem; /* Adds spacing between the main nav buttons and the Login/Profile button */
+}
+
+.navbarButton {
+  color: #e2e8f0; /* text-gray-300 */
+  font-weight: 500; /* font-medium */
+  transition: color 0.2s ease;
+  padding: 15px;
+  background-color: transparent;
+}
+
+.navbarButton:hover {
+  color: #fff; /* hover:text-white */
+}
+
+/* Media query to hide buttons and show the hamburger icon on small screens */
+.navbarMenuIconContainer {
+  display: none; /* Default, visible on smaller screens */
+}
+
+.navbarMenu {
+  margin-top: 1rem; /* mt-4 */
+  background-color: #2d3748; /* bg-gray-800 */
+  border-radius: 0.75rem; /* rounded-xl */
+  padding: 1rem;
+  margin-left: 1rem; /* mx-4 */
+}
+
+.navbarMenuItem {
+  color: #e2e8f0; /* text-gray-300 */
+  font-weight: 500; /* font-medium */
+  transition: color 0.2s ease;
+  background-color: transparent;
+}
+
+.navbarMenuItem:hover {
+  color: #fff; /* hover:text-white */
+}
+
+/* For screens larger than 768px, keep the buttons visible and hide the hamburger */
+@media (max-width: 768px) {
   .navbarButtonContainer {
-    display: flex;
-    align-items: center;
-    gap: 2rem; /* Creates consistent spacing between all buttons */
-  }
-  
-  .navbarAuthButton {
-    margin-left: 0rem; /* Adds spacing between the main nav buttons and the Login/Profile button */
+    display: none; /* Hide navigation buttons */
   }
 
-  .navbarButton {
-    color: #e2e8f0; /* text-gray-300 */
-    font-weight: 500; /* font-medium */
-    transition: color 0.2s ease;
-    padding: 15px;
-  }
-  
-  .navbarButton:hover {
-    color: #fff; /* hover:text-white */
-  }
-  
   .navbarMenuIconContainer {
-    display: block; /* md:hidden */
+    display: block; /* Show hamburger menu */
   }
-  
-  .navbarMenu {
-    margin-top: 1rem; /* mt-4 */
-    background-color: #2d3748; /* bg-gray-800 */
-    border-radius: 0.75rem; /* rounded-xl */
-    padding: 1rem;
-    margin-left: 1rem; /* mx-4 */
-  }
-  
-  .navbarMenuItem {
-    color: #e2e8f0; /* text-gray-300 */
-    font-weight: 500; /* font-medium */
-    transition: color 0.2s ease;
-  }
-  
-  .navbarMenuItem:hover {
-    color: #fff; /* hover:text-white */
-  }
-  
-  @media (min-width: 768px) {
-    .navbarButtonContainer {
-      display: flex;
-    }
-  
-    .navbarMenuIconContainer {
-      display: none;
-    }
-  }
-  
-  .flexcolumn {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .flexcolumn > * + * {
-    margin-top: 1rem; /* adds vertical space between items */
-  }
-  
+}
+
+.flexcolumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexcolumn > * + * {
+  margin-top: 1rem; /* adds vertical space between items */
+}
