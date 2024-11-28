@@ -1,0 +1,84 @@
+/* Main container for the showtimes page */
+.showTimesContainer {
+    padding: 20px;
+    background-color: #1e2838; /* Dark theme background */
+    color: #fff;
+    min-height: 100vh; /* Ensure the page takes the full viewport height */
+  }
+  
+  /* Heading styling */
+  .pageTitle {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffcc00; /* Accent color */
+  }
+  
+  /* List container styling */
+  .showList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* Space between cards */
+  }
+  
+  /* Individual show card styling */
+  .showCard {
+    background: #2a3a4d; /* Default background in case no image */
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6); /* Shadow for depth */
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Ensures content stays at the bottom */
+    position: relative; /* For background image overlay */
+    height: 400px; /* Fixed height for consistent card size */
+    color: #fff;
+  }
+  
+  /* Background image styling */
+  .showCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: 1; /* Places the image below text */
+    filter: brightness(0.7); /* Darkens the image for better text readability */
+  }
+  
+  /* Card content styling */
+  .showContent {
+    position: relative;
+    z-index: 2; /* Places the text above the image */
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent background to the text */
+    border-radius: 10px;
+  }
+  
+  /* Title styling within each card */
+  .showTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffcc00; /* Highlighted text color */
+  }
+  
+  /* Information within the card */
+  .showDetails {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #ddd; /* Lighter gray for readability */
+  }
+  
+  /* Hover effect for show cards */
+  .showCard:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.8);
+  }
+  

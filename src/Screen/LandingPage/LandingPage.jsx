@@ -3,9 +3,11 @@ import { FaPlay, FaStar, FaTimes } from "react-icons/fa";
 import MovieGridStyles from "./MovieGrid.module.css";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
 import LandingPageStyles from "./LandingPage.module.css";
+import MovieCard from "../../components/MovieCard";
+import MovieDetails from "../../components/MovieDetails";
+import MovieGrid from "../../components/MovieGrid";
 
-const LandingPage = ({movies, genres}) => {
-  const [showModal, setShowModal] = useState(false);
+const LandingPage = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -20,23 +22,28 @@ const LandingPage = ({movies, genres}) => {
   }, [movies]);
 
   const handleMovieClick = (movie) => {
-    setSelectedMovie(movie);
-    setShowModal(true);
+    //console.log("Movie clicked:", movie);
+    if (selectedMovie && selectedMovie.id === movie.id) {
+      setSelectedMovie(null); // Collapse the details if clicked again
+    } else {
+      setSelectedMovie(movie);
+    }
   };
 
   return (
     <div className={LandingPageStyles.container}>
-      {/* <Navbar setShowMenu={setMenuOpen} showMenu={menuOpen} /> */}
       <div className={LandingPageStyles.pageContent}>
-          <>
-            <FeaturedMovie movies={movies} currentImageIndex={currentImageIndex} />
-            <MovieGrid movies={movies} handleMovieClick={handleMovieClick} />
-          </>
+        <FeaturedMovie movies={movies} currentImageIndex={currentImageIndex} />
+        <MovieGrid
+          movies={movies}
+          selectedMovie={selectedMovie}
+          handleMovieClick={handleMovieClick}
+        />
       </div>
-      {showModal && <MovieModal movie={selectedMovie} onClose={() => setShowModal(false)} />}
     </div>
   );
 };
+
 
 // Navbar component
 
@@ -63,54 +70,6 @@ const FeaturedMovie = ({ movies, currentImageIndex }) => {
             <span>Watch Now</span>
           </button>
         </div>
-      </div>
-    </div>
-  );
-};
-
-// MovieGrid component
-const MovieGrid = ({ movies, handleMovieClick }) => (
-  <div className={MovieGridStyles.container}>
-    <h2 className={MovieGridStyles.title}>Trending Movies</h2>
-    <div className={MovieGridStyles.grid}>
-      {movies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} handleMovieClick={handleMovieClick} />
-      ))}
-    </div>
-  </div>
-);
-
-// MovieCard component
-const MovieCard = ({ movie, handleMovieClick }) => (
-  <div className={MovieGridStyles.card} onClick={() => handleMovieClick(movie)}>
-    <img src={movie.image} alt={movie.title} className={MovieGridStyles.cardImage} />
-    <div className={MovieGridStyles.cardOverlay}>
-      <div className={MovieGridStyles.cardTitle}>{movie.title}</div>
-      <div className={MovieGridStyles.cardDetails}>
-        <div className={MovieGridStyles.rating}>
-          <FaStar /> {movie.rating}
-        </div>
-        <div className={MovieGridStyles.genre}>
-          {movie.genres.join(", ")}
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-// MovieModal component
-const MovieModal = ({ movie, onClose }) => {
-  if (!movie) return null;
-
-  return (
-    <div className={LandingPageStyles.modal}>
-      <div className={LandingPageStyles.modalContent}>
-        <button className={LandingPageStyles.closeButton} onClick={onClose}>
-          <FaTimes />
-        </button>
-        <h2 className={LandingPageStyles.modalTitle}>{movie.title}</h2>
-        <img src={movie.image} alt={movie.title} className={LandingPageStyles.modalImage} />
-        <p className={LandingPageStyles.modalSynopsis}>{movie.synopsis}</p>
       </div>
     </div>
   );

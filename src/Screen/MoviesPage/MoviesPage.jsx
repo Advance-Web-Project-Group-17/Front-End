@@ -9,7 +9,10 @@ const MoviesPage = ({ movies, handleMovieClick }) => {
   return (
     <div className={styles.pageContainer}>
       <SearchBar setSearchResults={setSearchResults} />
-      <MovieGrid movies={searchResults.length > 0 ? searchResults : movies} handleMovieClick={handleMovieClick} />
+      <MovieGrid
+        movies={searchResults.length > 0 ? searchResults : movies}
+        handleMovieClick={handleMovieClick}
+      />
     </div>
   );
 };
@@ -18,7 +21,8 @@ const MoviesPage = ({ movies, handleMovieClick }) => {
 const SearchBar = ({ setSearchResults }) => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedDisplayCategory, setSelectedDisplayCategory] = useState("Title");
+  const [selectedDisplayCategory, setSelectedDisplayCategory] =
+    useState("Title");
   const [selectedCategory, setSelectedCategory] = useState("title");
   const [input, setInput] = useState(""); // Corrected state setter function name
 
@@ -37,38 +41,34 @@ const SearchBar = ({ setSearchResults }) => {
         setSearchResults([]); // Clear search results if input is empty
         return;
       }
-  
+
       const response = await axios.get(
         `${baseUrl}/movie/search/?${selectedCategory}=${input}`
       );
-  
+
       // Accessing the 'results' key which contains the array of movies
-      if (response.data.results && response.data.results.length > 0) {
-        const moviesData = response.data.results.map((movie) => ({
-          id: movie.id,
-          title: movie.title,
-          image: movie.poster_path
-            ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-            : "/placeholder.jpg", // Fallback for missing poster
-          rating: movie.vote_average ? movie.vote_average.toFixed(1) : "N/A",
-          genres: movie.genres || ["Unknown"], // Handle missing genres
-          synopsis: movie.overview || "No synopsis available",
-          releaseDate: movie.release_date || "Unknown release date",
-        }));
-        console.log("worked")
-        setSearchResults(moviesData); // Update state with mapped data
-      } else {
-        console.log("fail")
-        setSearchResults([]); // Clear results if no valid response
-      }
-  
+      const moviesData = response.data.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        image: movie.poster_path
+          ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+          : "/placeholder.jpg", // Fallback for missing poster
+        rating: movie.vote_average ? movie.vote_average.toFixed(1) : "N/A",
+        genres: movie.genres || ["Unknown"], // Handle missing genres
+        synopsis: movie.overview || "No synopsis available",
+        releaseDate: movie.release_date || "Unknown release date",
+      }));
+      console.log("worked");
+      setSearchResults(moviesData); // Update state with mapped data
+
+      // setSearchResults(response.data)
       console.log("Response:", response.data);
     } catch (error) {
       console.error("Error fetching movies:", error.message);
       setSearchResults([]); // Clear results on error
     }
   };
-  
+
   // Trigger searchFilm whenever the input or selectedCategory changes
 
   const handleCategorySelect = (category) => {
@@ -103,7 +103,9 @@ const SearchBar = ({ setSearchResults }) => {
           <ul className={styles.dropdownList}>
             <li onClick={() => handleCategorySelect("title")}>Title</li>
             <li onClick={() => handleCategorySelect("genre")}>Genre</li>
-            <li onClick={() => handleCategorySelect("release_year")}>Release Year</li>
+            <li onClick={() => handleCategorySelect("release_year")}>
+              Release Year
+            </li>
             <li onClick={() => handleCategorySelect("rating")}>Rating</li>
           </ul>
         )}
@@ -117,7 +119,14 @@ const SearchBar = ({ setSearchResults }) => {
           onChange={takeInput}
         />
       </div>
-      <i className={styles.searchButton} onClick={() => {searchFilm()}}><FaSearch /></i>
+      <i
+        className={styles.searchButton}
+        onClick={() => {
+          searchFilm();
+        }}
+      >
+        <FaSearch />
+      </i>
     </div>
   );
 };
@@ -129,7 +138,11 @@ const MovieGrid = ({ movies, handleMovieClick }) => (
     <div className={styles.grid}>
       {movies.length > 0 ? (
         movies.map((movie) => (
-          <MovieCard key={movie.id} movie={movie} handleMovieClick={handleMovieClick} />
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            handleMovieClick={handleMovieClick}
+          />
         ))
       ) : (
         <p>No results found</p>
