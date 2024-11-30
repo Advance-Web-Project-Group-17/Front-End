@@ -66,6 +66,11 @@
   font-size: 1rem;
   color: #4b5563; /* Gray */
   line-height: 1.5;
+  cursor: pointer;
+  padding: 10px;
+  background-color: cyan;
+  border-radius: 8px;
+  margin: 5px;
 }
 
 /* Action Buttons */

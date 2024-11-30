@@ -5,13 +5,106 @@ import styles from "./MoviesPage.module.css"; // Importing the CSS module
 
 const MoviesPage = ({ movies, handleMovieClick }) => {
   const [searchResults, setSearchResults] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [userGroups, setUserGroups] = useState([]);
+  const [selectedGroupId, setSelectedGroupId] = useState(null);
+  const [selectedMovieId, setSelectedMovieId] = useState(null); // Add state for the selected movie
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const user_id = sessionStorage.getItem("id");
+
+  // Fetch user groups when the modal is opened
+  const fetchUserGroups = async () => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/group/getUserGroup/${user_id}`
+      );
+      setUserGroups(response.data);
+    } catch (error) {
+      console.error("Error fetching user groups:", error);
+    }
+  };
+
+  // Handle adding movie to the selected group
+  const handleAddToGroup = async () => {
+    if (!selectedGroupId || !selectedMovieId) {
+      alert("Please select a group and a movie.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(`${baseUrl}/group/addMovie`, {
+        group_id: selectedGroupId,
+        movie_id: selectedMovieId,
+        user_id,
+      });
+
+      if (response.status === 200) {
+        alert("Movie added to group successfully!");
+        setIsModalOpen(false); // Close the modal after adding
+        setSelectedGroupId(null); // Reset the selected group
+        setSelectedMovieId(null); // Reset the selected movie
+      }
+    } catch (error) {
+      console.error("Error adding movie to group:", error.message);
+      alert("Failed to add movie to group.");
+    }
+  };
+
+  const openModal = (movie_id) => {
+    setIsModalOpen(true);
+    setSelectedMovieId(movie_id); // Set the movie ID when modal is opened
+    fetchUserGroups();
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedGroupId(null); // Reset the selected group when closing
+    setSelectedMovieId(null); // Reset the selected movie
+  };
 
   return (
     <div className={styles.pageContainer}>
       <SearchBar setSearchResults={setSearchResults} />
+      
+      {/* Modal for Group Selection */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Select a Group</h3>
+            <table className={styles.groupTable}>
+              <thead>
+                <tr>
+                  <th>Group Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {userGroups.length > 0 ? (
+                  userGroups.map((group) => (
+                    <tr key={group.group_id}>
+                      <td onClick={() => setSelectedGroupId(group.group_id)}>
+                        {group.group_name}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="2">No groups found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            <div className={styles.modalButtons}>
+              <button onClick={closeModal}>Close</button>
+              <button onClick={handleAddToGroup}>Add to Group</button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <MovieGrid
         movies={searchResults.length > 0 ? searchResults : movies}
         handleMovieClick={handleMovieClick}
+        handleAddToGroup={openModal} // Open modal when clicked
       />
     </div>
   );
@@ -21,20 +114,16 @@ const MoviesPage = ({ movies, handleMovieClick }) => {
 const SearchBar = ({ setSearchResults }) => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedDisplayCategory, setSelectedDisplayCategory] =
-    useState("Title");
+  const [selectedDisplayCategory, setSelectedDisplayCategory] = useState("Title");
   const [selectedCategory, setSelectedCategory] = useState("title");
-  const [input, setInput] = useState(""); // Corrected state setter function name
+  const [input, setInput] = useState("");
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const takeInput = (e) => {
     setInput(e.target.value);
-    console.log(e.target.value); // Log the value directly from the event
   };
 
-  // Function to search for films based on input and selected category
-  // Function to search for films based on input and selected category
   const searchFilm = async () => {
     try {
       if (!input) {
@@ -46,7 +135,6 @@ const SearchBar = ({ setSearchResults }) => {
         `${baseUrl}/search/movie?${selectedCategory}=${input}`
       );
 
-      // Accessing the 'results' key which contains the array of movies
       const moviesData = response.data.map((movie) => ({
         id: movie.id,
         title: movie.title,
@@ -58,21 +146,15 @@ const SearchBar = ({ setSearchResults }) => {
         synopsis: movie.overview || "No synopsis available",
         releaseDate: movie.release_date || "Unknown release date",
       }));
-      console.log("worked");
       setSearchResults(moviesData); // Update state with mapped data
-
-      // setSearchResults(response.data)
-      console.log("Response:", response.data);
     } catch (error) {
       console.error("Error fetching movies:", error.message);
       setSearchResults([]); // Clear results on error
     }
   };
 
-  // Trigger searchFilm whenever the input or selectedCategory changes
-
   const handleCategorySelect = (category) => {
-    setSelectedCategory(category); // Set the selected category
+    setSelectedCategory(category);
     switch (category) {
       case "title":
         setSelectedDisplayCategory("Title");
@@ -94,7 +176,6 @@ const SearchBar = ({ setSearchResults }) => {
 
   return (
     <div className={styles.searchBar}>
-      {/* Dropdown */}
       <div className={styles.dropdown} onClick={toggleDropdown}>
         <div className={styles.dropdownText}>
           <span>{selectedDisplayCategory}</span>
@@ -111,7 +192,6 @@ const SearchBar = ({ setSearchResults }) => {
         )}
       </div>
 
-      {/* Search Box */}
       <div className={styles.searchBox}>
         <input
           type="text"
@@ -132,7 +212,7 @@ const SearchBar = ({ setSearchResults }) => {
 };
 
 // MovieGrid Component
-const MovieGrid = ({ movies, handleMovieClick }) => (
+const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup }) => (
   <div className={styles.container}>
     <h2 className={styles.title}>Movies</h2>
     <div className={styles.grid}>
@@ -142,6 +222,7 @@ const MovieGrid = ({ movies, handleMovieClick }) => (
             key={movie.id}
             movie={movie}
             handleMovieClick={handleMovieClick}
+            handleAddToGroup={() => handleAddToGroup(movie.id)} // Pass movie.id when clicked
           />
         ))
       ) : (
@@ -152,7 +233,7 @@ const MovieGrid = ({ movies, handleMovieClick }) => (
 );
 
 // MovieCard Component
-const MovieCard = ({ movie, handleMovieClick, handleFavorite }) => (
+const MovieCard = ({ movie, handleMovieClick, handleAddToGroup }) => (
   <div className={styles.card} onClick={() => handleMovieClick(movie)}>
     <img src={movie.image} alt={movie.title} className={styles.cardImage} />
     <div className={styles.cardOverlay}>
@@ -163,15 +244,23 @@ const MovieCard = ({ movie, handleMovieClick, handleFavorite }) => (
         </div>
         <div className={styles.genre}>{movie.genres.join(", ")}</div>
       </div>
-      {/* Heart button in the top-right */}
       <button
         className={styles.heartButton}
         onClick={(e) => {
-          e.stopPropagation(); // Prevent triggering card click event
-          handleFavorite(movie); // Call handleFavorite function when clicked
+          e.stopPropagation();
+          handleAddToGroup(movie.id); // Open modal when clicked
         }}
       >
         <FaHeart className={styles.heartIcon} />
+      </button>
+      <button
+        className={styles.addToGroupButton}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleAddToGroup(movie.id); // Open modal when clicked
+        }}
+      >
+        Add to Group
       </button>
     </div>
   </div>
