@@ -24,6 +24,7 @@ const LoginPage = ({setIsLoggedIn}) => {
         sessionStorage.setItem("token", response.data.token);
         sessionStorage.setItem("id", response.data.id)
         sessionStorage.setItem("isLoggedIn", "true");
+        sessionStorage.setItem("is_admin", response.data.is_admin)
         setIsLoggedIn(true)
         setMessage("Login successful!");
         navigate("/")

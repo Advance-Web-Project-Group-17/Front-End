@@ -10,6 +10,7 @@ const EditProfilePage = () => {
     nick_name: "",
     location: "",
   });
+  const isLoggedIn = sessionStorage.getItem("isLoggedIn")
 
   const handleEdit = async (e) => {
     e.preventDefault();
@@ -25,7 +26,11 @@ const EditProfilePage = () => {
 
       console.log("Response:", response.data);
       if (response.status === 200) {
-        alert("Update successful! Remember to verify your account via email before logging in")
+        if(isLoggedIn){
+          alert("Update successful!")
+        } else {
+          alert("Update successful! Remember to verify your account via email before logging in")
+        }
       }
     } catch (error) {
       console.error("Error during signup:", error);

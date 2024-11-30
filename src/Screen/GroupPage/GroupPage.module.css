@@ -1,0 +1,241 @@
+.dashboard {
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 100vh;
+    padding-top: 6rem;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .searchBar {
+    flex: 1;
+    margin: 0 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+  }
+  
+  .newGroupButton {
+    background-color: #3a86ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .deleteGroupButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .deleteGroupButton:hover{
+    background-color: darkred;
+  }
+  
+  .content {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .mediaSection {
+    display: flex;
+    gap: 20px;
+    flex: 1;
+  }
+  
+  .mediaImage {
+    width: 200px;
+    border-radius: 10px;
+  }
+  
+  .mediaDetails {
+    flex: 1;
+  }
+  
+  .mediaDetails h2 {
+    margin: 0;
+    font-size: 18px;
+  }
+  
+  .mediaDetails p {
+    margin: 10px 0;
+    font-size: 14px;
+    color: #b0b0b0;
+  }
+  
+  .ratings {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .ratingScore {
+    background-color: #ffcc00;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+  
+  .ratingVotes {
+    color: #b0b0b0;
+  }
+  
+  .playButton {
+    margin: 10px 0;
+    padding: 10px 20px;
+    background-color: #e63946;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .episodeLinks {
+    margin-top: 10px;
+    color: #a8dadc;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .userList {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .userItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2a2a2a;
+    padding: 10px 20px;
+    border-radius: 5px;
+  }
+  
+  .userName {
+    color: #f1faee;
+  }
+  
+  .removeButton {
+    background-color: #e63946;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .grantAdminButton{
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .showTimesContainer {
+    padding: 10px;
+    background-color: #1e2838; /* Dark theme background */
+    color: #fff; 
+    border-radius: 15px;
+  }
+  
+  /* Heading styling */
+  .pageTitle {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffcc00; /* Accent color */
+  }
+
+  .filmType {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffcc00;
+  }
+  
+  /* List container styling */
+  .showList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* Space between cards */
+  }
+  
+  /* Individual show card styling */
+  .showCard {
+    background: #2a3a4d; /* Default background in case no image */
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.6); /* Shadow for depth */
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Ensures content stays at the bottom */
+    position: relative; /* For background image overlay */
+    height: 400px; /* Fixed height for consistent card size */
+    color: #fff;
+  }
+  
+  /* Card content styling */
+  .showContent {
+    position: relative;
+    z-index: 2; /* Places the text above the image */
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5); /* Adds a semi-transparent background to the text */
+    border-radius: 10px;
+  }
+  
+  /* Title styling within each card */
+  .showTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffcc00; /* Highlighted text color */
+  }
+  
+  /* Information within the card */
+  .showDetails {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #ddd; /* Lighter gray for readability */
+  }
+  
+  /* Hover effect for show cards */
+  .showCard:hover {
+    transform: translateY(-5px); /* Lift effect */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.8);
+  }
+  .showImage {
+    border-radius: 15px;
+  }
+
+  .deleteMovieButton {
+    padding: 5px;
+    background-color: red;
+    float: right;
+  }
+  
+  
