@@ -66,6 +66,8 @@ function App() {
           `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
         );
 
+        console.log(response)
+
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
           title: movie.title || movie.name,
@@ -74,6 +76,7 @@ function App() {
           rating: movie.vote_average.toFixed(1),
           genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
           synopsis: movie.overview,
+          releaseYear: movie.release_date ? movie.release_date.split("-")[0] : "N/A", // Extract year
         }));
         setTrendingMovies(moviesData);
       } catch (e) {
