@@ -9,6 +9,8 @@ const MovieDetails = ({ movie }) => {
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [startIndex, setStartIndex] = useState(0); // Tracks the starting index for the visible reviews
+  const [showModal, setShowModal] = useState(false); // State for modal
+  const [fullReview, setFullReview] = useState(""); // State for full review text
   const visibleCount = 3; // Number of reviews visible at a time
 
   useEffect(() => {
@@ -67,6 +69,18 @@ const MovieDetails = ({ movie }) => {
     setRating(starIndex + 1);
   };
 
+  const handleReadMore = (review) => {
+    setFullReview(review);
+    setShowModal(true);
+    document.body.classList.add("modal-open"); // Disable background scrolling
+  };
+  
+  const closeModal = () => {
+    setShowModal(false);
+    setFullReview("");
+    document.body.classList.remove("modal-open"); // Re-enable background scrolling
+  };
+
   if (!movie) {
     return <p>No movie selected.</p>;
   }
@@ -94,6 +108,9 @@ const MovieDetails = ({ movie }) => {
           <p>
             <strong>Rating:</strong> ⭐ {movie.rating || "N/A"}
           </p>
+          <p>
+            <strong>Year:</strong> {movie.releaseYear || "N/A"}
+          </p>
           <div className={MovieDetailsStyles.reviewsContainer}>
             <h2>User Reviews</h2>
             {reviews.length > 0 ? (
@@ -111,9 +128,21 @@ const MovieDetails = ({ movie }) => {
                       className={MovieDetailsStyles.reviewCard}
                     >
                       <p>
-                        <strong>⭐ {review?.rating}/10</strong>
+                        <strong>⭐ {review?.rating}/5</strong>
                       </p>
-                      <p>{review?.review_text}</p>
+                      <p>
+                        {review?.review_text.length > 100
+                          ? `${review.review_text.slice(0, 100)}...`
+                          : review.review_text}
+                        {review?.review_text.length > 100 && (
+                          <span
+                            className={MovieDetailsStyles.readMore}
+                            onClick={() => handleReadMore(review.review_text)}
+                          >
+                            Read More
+                          </span>
+                        )}
+                      </p>
                       <small>— {review?.user_name}</small>
                     </div>
                   ))}
@@ -144,7 +173,7 @@ const MovieDetails = ({ movie }) => {
           required
         />
         <div className={MovieDetailsStyles.starRating}>
-          {Array.from({ length: 10 }, (_, i) => (
+          {Array.from({ length: 5 }, (_, i) => (
             <span
               key={i}
               className={`${MovieDetailsStyles.star} ${
@@ -160,6 +189,19 @@ const MovieDetails = ({ movie }) => {
           {isSubmitting ? "Submitting..." : "Submit Review"}
         </button>
       </form>
+
+      {/* Modal for Full Review */}
+      {showModal && (
+        <div className={MovieDetailsStyles.modal}>
+          <div className={MovieDetailsStyles.modalContent}>
+            <button onClick={closeModal} className={MovieDetailsStyles.modalCloseButton}>
+              ×
+            </button>
+            <p className={MovieDetailsStyles.modalFullReview}>{fullReview}</p>
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
