@@ -9,7 +9,8 @@ const GroupPage = () => {
   const [groupMovies, setGroupMovies] = useState([]);
   const [groupTvShows, setGroupTvShows] = useState([]);
   const [groupMembers, setGroupMembers] = useState([]);
-  const is_admin = sessionStorage.getItem("is_admin");
+  const [isInGroup, setIsInGroup] = useState(false)
+  const [is_admin, setIs_admin] = useState(false)
   const user_id = sessionStorage.getItem("id");
   const nav = useNavigate();
 
@@ -130,19 +131,32 @@ const GroupPage = () => {
     }
   };
   
-  const handleCreateGroup = async () => {
+  const handleJoinGroup = async () => {
     try {
-        const response = await axios.post(`${baseUrl}/group/create`,{
-            user_id,
-            group_name: "Test group"
-        })
-        if(response.status === 200){
-            alert("Group created successfully")
-        }
-    }catch(error){
-        console.error("Error creating group:", error)
+      const response = await axios.post(`${baseUrl}/group/addMember`, {
+        user_id,
+        group_id,
+      });
+      if (response.status === 200) {
+        alert("Joined group successfully");
+  
+        // Update the `isInGroup` state to hide the "Join Group" button
+        setIsInGroup(true);
+  
+        // Optionally add the new user to the `groupMembers` list
+        setGroupMembers((prevMembers) => [
+          ...prevMembers,
+          {
+            user_id: user_id,
+            nick_name: response.data.nick_name,
+          },
+        ]);
+      }
+    } catch (error) {
+      console.error("Error joining group:", error);
     }
-  }
+  };
+  
   
   const handleDeleteGroup = async () => {
     try {
@@ -161,17 +175,80 @@ const GroupPage = () => {
       alert("An error occurred while trying to delete the group.");
     }
   };
-  
 
+  useEffect(() => {
+    const checkUserInGroup = async() => {
+      try{
+        const response = await axios.post(`${baseUrl}/group/checkMember/${group_id}`,{
+          user_id
+        })
+        console.log(response.data)
+        if(response.status === 200) {
+          setIsInGroup(true)
+        }
+      }catch (error) {
+        console.error("Error checking user in group:", error);
+      }
+    }
+    checkUserInGroup()
+  },[user_id, group_id])
+
+  const handleOutGroup = async () => {
+    try {
+      const response = await axios.delete(`${baseUrl}/group/outGroup/${group_id}`, {
+        data: { removed_id: user_id }, // Use the "data" field to send the request body
+      });
+  
+      if (response.status === 200) {
+        alert("You have left the group successfully");
+        setIsInGroup(false);
+        nav("/"); // Redirect user to the home page
+      } else {
+        alert("You are the only admin please grant someone admin to leave group");
+      }
+    } catch (error) {
+      console.error("Error leaving group:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "An error occurred while leaving the group");
+    }
+  };
+
+  useEffect(() => {
+    const checkUserAdmin = async () => {
+      try {
+        const response = await axios.post(`${baseUrl}/group/checkAdmin`, {
+          user_id,
+          group_id
+        });
+  
+        if (response.status === 200) {
+          console.log("is_admin" +is_admin)
+          setIs_admin(true); // Set as boolean
+        } else {
+          setIs_admin(false); // Set as boolean if not admin
+        }
+      } catch (error) {
+        console.error("Error checking if user is admin:", error);
+        setIs_admin(false); // Set as false if there's an error
+      }
+    };
+  
+    if (user_id && group_id) {
+      checkUserAdmin();
+    }
+  }, [user_id, group_id]); // This will only run when `user_id` or `group_id` changes
+  
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
-        {is_admin === "true" && (
+        {is_admin === true && (
           <>
-            <button className={styles.newGroupButton} onClick={() => {handleCreateGroup()}}>Start a new group</button>
             <button className={styles.deleteGroupButton} onClick={() => {handleDeleteGroup()}}>Delete group</button>
           </>
         )}
+        {isInGroup == false && (
+          <button className={styles.newGroupButton} onClick={() => {handleJoinGroup()}}>Join group</button>
+        )}
+        <button className={styles.deleteGroupButton} onClick={() => {handleOutGroup()}}>Out group</button>
       </header>
 
       {/* Showtimes Section */}
