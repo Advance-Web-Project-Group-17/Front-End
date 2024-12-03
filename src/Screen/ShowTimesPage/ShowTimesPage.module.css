@@ -4,6 +4,7 @@
     background-color: #1e2838; /* Dark theme background */
     color: #fff;
     min-height: 100vh; /* Ensure the page takes the full viewport height */
+    padding-top: 6rem;
   }
   
   /* Heading styling */
@@ -83,5 +84,59 @@
   }
   .showImage {
     border-radius: 15px;
+  }
+  
+  .theaterSelector {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 20px 0;
+  }
+  
+  .theaterSelector label {
+    font-size: 1rem;
+    color: white;
+    margin-bottom: 8px;
+  }
+  
+  .selectDropdown {
+    width: 100%;
+    max-width: 300px;
+    padding: 8px;
+    font-size: 1rem;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  .selectDropdown:hover {
+    border-color: #0073e6;
+  }
+  
+  .selectDropdown:focus {
+    border-color: #005bb5;
+    box-shadow: 0 0 5px rgba(0, 115, 230, 0.5);
+  }
+  
+  .selectOption {
+    padding: 10px;
+    font-size: 1rem;
+    color: #333;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .selectOption:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .selectOption:focus {
+    background-color: #e0e0e0;
+    outline: none;
   }
   
