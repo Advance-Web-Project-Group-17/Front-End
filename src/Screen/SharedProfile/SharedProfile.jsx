@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import styles from "./ProfilePage.module.css"; // Import the CSS module
+import styles from "./SharedProfile.module.css"; // Import the CSS module
 
-const ProfilePage = ({ setIsLoggedIn }) => {
+const SharedProfilePage = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
   const [userData, setUserData] = useState();
   const [userGroup, setUserGroup] = useState([]);
   const [groupMovies, setGroupMovies] = useState([]);
   const [groupTvShows, setGroupTvShows] = useState([]);
-  const user_id = sessionStorage.getItem("id");
+  const user_id = useParams().user_id;
 
   // Fetch user's data from backend
   const fetchUserData = async () => {
-    const user_id = sessionStorage.getItem("id");
     if (user_id) {
       try {
         const response = await axios.get(`${baseUrl}/user/profile/${user_id}`);
@@ -43,30 +42,8 @@ const ProfilePage = ({ setIsLoggedIn }) => {
     fetchUserGroup();
   }, []);
 
-  const handleDeleteAccount = async () => {
-    // const user_id = sessionStorage.getItem('id');
-    // try {
-    //   const response = await axios.delete(`${baseUrl}/user/delete/${user_id}`);
-    //   if(response.status === 200){
-    //     onLogout();
-    //   } else if(response.status === 400){
-    //     alert("You are an admin of some group please grant more admin")
-    //   }
-    // } catch (error) {
-    //   console.error('Failed to delete account:', error);
-    // }
-  };
-
   const handleGroupClick = (group_id) => {
     navigate(`/group/${group_id}`);
-  };
-
-  const onLogout = () => {
-    sessionStorage.removeItem("id");
-    sessionStorage.removeItem("isLoggedIn");
-    sessionStorage.removeItem("token");
-    setIsLoggedIn(false);
-    navigate("/");
   };
 
   useEffect(() => {
@@ -107,55 +84,6 @@ const ProfilePage = ({ setIsLoggedIn }) => {
     };
     fetchUserFavorite();
   }, []);
-  const shareProfile = async () => {
-    const user_id = sessionStorage.getItem("id"); // Fetch from sessionStorage
-    if (!user_id) {
-      alert("User ID is missing. Please log in again.");
-      return;
-    }
-  
-    try {
-      const response = await axios.put(`${baseUrl}/user/profile/share`, {
-        user_id, // Send user_id from sessionStorage
-        is_shared: "true",
-      });
-  
-      if (response.status === 200) {
-        alert("Profile shared successfully.");
-      } else {
-        alert("Failed to share profile. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error sharing profile:", error);
-      alert("An error occurred while sharing the profile.");
-    }
-  };
-  
-  const unSharedProfile = async () => {
-    const user_id = sessionStorage.getItem("id"); // Fetch from sessionStorage
-    if (!user_id) {
-      alert("User ID is missing. Please log in again.");
-      return;
-    }
-  
-    try {
-      const response = await axios.put(`${baseUrl}/user/profile/share`, {
-        user_id, // Send user_id from sessionStorage
-        is_shared: "false",
-      });
-  
-      if (response.status === 200) {
-        alert("Profile unshared successfully.");
-      } else {
-        alert("Failed to unshare profile. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error unsharing profile:", error);
-      alert("An error occurred while unsharing the profile.");
-    }
-  };
-  
-  
 
   return (
     <div className={styles.container}>
@@ -183,58 +111,23 @@ const ProfilePage = ({ setIsLoggedIn }) => {
           {/* Bio Section */}
           <div className={styles.profileBioSection}>
             <h3 className={styles.profileBioTitle}>Groups</h3>
-            <p>
-              {userGroup.map((group) => (
+            {userGroup.length > 0 ? (
+              userGroup.map((group) => (
                 <div
+                  key={group.group_id}
                   className={styles.profileBioText}
-                  onClick={() => {
-                    handleGroupClick(group.group_id);
-                  }}
+                  onClick={() => handleGroupClick(group.group_id)}
                 >
                   {group.group_name}
                 </div>
-              )) || "You are not in any group"}
-            </p>
+              ))
+            ) : (
+              <p>This user is not in any group!</p>
+            )}
           </div>
-
-          {/* Action Buttons */}
-          <div className={styles.profileActions}>
-            <button
-              className={styles.editProfileBtn}
-              onClick={() => navigate("/edit")}
-            >
-              Edit Profile
-            </button>
-            <button
-              className={styles.editProfileBtn}
-              onClick={() => {
-                shareProfile();
-              }}
-            >
-              Share Profile
-            </button>
-            <button
-              className={styles.deleteAccountBtn}
-              onClick={() => {
-                unSharedProfile();
-              }}
-            >
-              Unshare Profile
-            </button>
-            <button
-              className={styles.deleteAccountBtn}
-              onClick={() => handleDeleteAccount()}
-            >
-              Delete Account
-            </button>
-          </div>
-
-          {/* Logout Button */}
-          <button onClick={onLogout} className={styles.logoutBtn}>
-            Logout
-          </button>
         </div>
       </div>
+
       <div className={styles.showTimesContainer}>
         <h1 className={styles.filmType}>Favorite List</h1>
         <h2 className={styles.filmType}>Movies</h2>
@@ -286,4 +179,4 @@ const ProfilePage = ({ setIsLoggedIn }) => {
   );
 };
 
-export default ProfilePage;
+export default SharedProfilePage;

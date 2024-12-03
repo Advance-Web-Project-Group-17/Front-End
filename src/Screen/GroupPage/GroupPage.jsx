@@ -312,7 +312,7 @@ const GroupPage = () => {
             <span className={styles.userName}>
               {member.nick_name || "Unknown"}
             </span>
-            {is_admin === "true" && (
+            {is_admin === true && (
               <div>
                 <button
                   className={styles.removeButton}
