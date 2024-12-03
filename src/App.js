@@ -12,6 +12,7 @@ import EditProfilePage from "./Screen/EditProfilePage/EditProfilePage.jsx";
 import TVShowGrid from "./Screen/TvshowPage/TVShowGrid.jsx";
 import GroupPage from "./Screen/GroupPage/GroupPage.jsx";
 import GroupListPage from "./Screen/GroupListPage/GroupListPage.jsx";
+import SharedProfilePage from "./Screen/SharedProfile/SharedProfile.jsx";
 import './App.css';
 
 function App() {
@@ -159,6 +160,7 @@ useEffect(() => {
           <Route path="/tvshows" element={<TVShowGrid movies={tvShows}/>} />
           <Route path="/group/:group_id" element={<GroupPage />} />
           <Route path="/group" element={<GroupListPage />} />
+          <Route path="/sharedprofile/:user_id" element={<SharedProfilePage setIsLoggedIn={setIsLoggedIn}/>} />
         </Routes>
       </Router>
     </div>

@@ -61,6 +61,31 @@ const TVShowGrid = ({ movies, handleMovieClick }) => {
     setSelectedMovieId(null); // Reset the selected movie
   };
 
+  const handleAddToFavorite = async (movie_id) => {
+    if (!movie_id) {
+      alert("Please select a tv show.");
+      return;
+    }
+  
+    try {
+      const response = await axios.post(`${baseUrl}/favorites/add`, {
+        user_id,
+        movie_id,
+        type: "tv",
+      });
+  
+      if (response.status === 201) {
+        alert("TV show added to favorites successfully!");
+      }
+      if (response.status === 400) {
+        alert("This TV show already in your favorite list")
+      }
+    } catch (error) {
+      console.error("Error adding movie to favorites:", error.message);
+      alert("Failed to add movie to favorites.");
+    }
+  };
+
   return (
     <div className={styles.pageContainer}>
       <SearchBar setSearchResults={setSearchResults} />
@@ -103,7 +128,8 @@ const TVShowGrid = ({ movies, handleMovieClick }) => {
       <MovieGrid
         movies={searchResults.length > 0 ? searchResults : movies}
         handleMovieClick={handleMovieClick}
-        handleAddToGroup={openModal} // Open modal when clicked
+        handleAddToGroup={openModal}
+        handleAddToFavorite={handleAddToFavorite} 
       />
     </div>
   );
@@ -221,7 +247,7 @@ const SearchBar = ({ setSearchResults }) => {
 };
 
 // MovieGrid Component
-const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup }) => (
+const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup, handleAddToFavorite }) => (
   <div className={styles.container}>
     <h2 className={styles.title}>Movies</h2>
     <div className={styles.grid}>
@@ -231,7 +257,8 @@ const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup }) => (
             key={movie.id}
             movie={movie}
             handleMovieClick={handleMovieClick}
-            handleAddToGroup={() => handleAddToGroup(movie.id)} // Pass movie.id when clicked
+            handleAddToGroup={() => handleAddToGroup(movie.id)}
+            handleAddToFavorite={() => handleAddToFavorite(movie.id)} // Pass movie.id when clicked
           />
         ))
       ) : (
@@ -242,7 +269,7 @@ const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup }) => (
 );
 
 // MovieCard Component
-const MovieCard = ({ movie, handleMovieClick, handleAddToGroup }) => (
+const MovieCard = ({ movie, handleMovieClick, handleAddToGroup, handleAddToFavorite }) => (
   <div className={styles.card} onClick={() => handleMovieClick(movie)}>
     <img src={movie.image} alt={movie.title} className={styles.cardImage} />
     <div className={styles.cardOverlay}>
@@ -257,7 +284,7 @@ const MovieCard = ({ movie, handleMovieClick, handleAddToGroup }) => (
         className={styles.heartButton}
         onClick={(e) => {
           e.stopPropagation();
-          handleAddToGroup(movie.id); // Open modal when clicked
+          handleAddToFavorite(); // Open modal when clicked
         }}
       >
         <FaHeart className={styles.heartIcon} />
