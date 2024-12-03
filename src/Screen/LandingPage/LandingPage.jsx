@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaStar, FaTimes } from "react-icons/fa";
 import MovieGridStyles from "./MovieGrid.module.css";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
@@ -10,6 +10,7 @@ import MovieGrid from "../../components/MovieGrid";
 const LandingPage = ({ movies }) => {
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const detailsRef = useRef(null);
 
   // Slideshow logic
   useEffect(() => {
@@ -28,6 +29,13 @@ const LandingPage = ({ movies }) => {
     } else {
       setSelectedMovie(movie);
     }
+
+    // Scroll to the MovieDetails section
+    setTimeout(() => {
+      if (detailsRef.current) {
+        detailsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 0); // Ensure the ref is available after rendering
   };
 
   return (
@@ -38,6 +46,7 @@ const LandingPage = ({ movies }) => {
           movies={movies}
           selectedMovie={selectedMovie}
           handleMovieClick={handleMovieClick}
+          detailsRef={detailsRef} // Pass the ref here
         />
       </div>
     </div>

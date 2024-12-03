@@ -20,11 +20,11 @@
   margin-bottom: 2rem;
 }
 
-.grid {
+/*.grid {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   gap: 2rem;
-}
+}*/
 
 @media (min-width: 640px) {
   .grid {
@@ -318,4 +318,22 @@
 
 .modalButtons button:first-child:hover {
   background-color: #5a6268;
+}
+
+.detailsContainer {
+  grid-column: 1 / -1; /* Span the full grid width */
+  background-color: #2d3748; /* bg-gray-800 */
+  color: white;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-md */
+  margin-top: 1rem; /* Space between rows and details */
+  transition: all 0.3s ease-in-out;
+}
+
+.gridRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Ensure 4 columns per row */
+  gap: 1.5rem; /* Add spacing between cards */
+  margin-bottom: 2rem; /* Add padding between rows */
 }

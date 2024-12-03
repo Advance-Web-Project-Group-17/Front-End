@@ -2,7 +2,7 @@ import React from "react";
 import MovieGridStyles from "../Screen/LandingPage//MovieGrid.module.css";
 import MovieDetails from "./MovieDetails.js";
 
-const MovieGrid = ({ movies, handleMovieClick, selectedMovie }) => {
+const MovieGrid = ({ movies, handleMovieClick, selectedMovie, detailsRef }) => {
   const itemsPerRow = 4;
 
   // Dynamically insert movie details in the grid
@@ -50,7 +50,11 @@ const MovieGrid = ({ movies, handleMovieClick, selectedMovie }) => {
             Math.floor(movies.findIndex((m) => m.id === selectedMovie.id) / itemsPerRow)
         ) {
           elements.push(
-            <div key={`details-${selectedMovie.id}`} className={MovieGridStyles.detailsContainer}>
+            <div 
+              key={`details-${selectedMovie.id}`} 
+              className={MovieGridStyles.detailsContainer}
+              ref={detailsRef} // Attach the ref here for MovieDetails
+            >
               <MovieDetails movie={selectedMovie} />
             </div>
           );
