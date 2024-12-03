@@ -44,17 +44,7 @@ const ProfilePage = ({ setIsLoggedIn }) => {
   }, []);
 
   const handleDeleteAccount = async () => {
-    // const user_id = sessionStorage.getItem('id');
-    // try {
-    //   const response = await axios.delete(`${baseUrl}/user/delete/${user_id}`);
-    //   if(response.status === 200){
-    //     onLogout();
-    //   } else if(response.status === 400){
-    //     alert("You are an admin of some group please grant more admin")
-    //   }
-    // } catch (error) {
-    //   console.error('Failed to delete account:', error);
-    // }
+    navigate("/delete")
   };
 
   const handleGroupClick = (group_id) => {

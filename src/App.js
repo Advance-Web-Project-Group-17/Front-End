@@ -14,6 +14,7 @@ import GroupPage from "./Screen/GroupPage/GroupPage.jsx";
 import GroupListPage from "./Screen/GroupListPage/GroupListPage.jsx";
 import SharedProfilePage from "./Screen/SharedProfile/SharedProfile.jsx";
 import Profilelist from "./Screen/ProfileList/Profilelist.jsx";
+import DeleteAccountPage from "./Screen/DeleteAccountPage/DeleteAccountPage.jsx";
 import "./App.css";
 
 function App() {
@@ -183,6 +184,7 @@ function App() {
             element={<SharedProfilePage />}
           />
           <Route path="/profilelist" element={<Profilelist />} />
+          <Route path="/delete" element={<DeleteAccountPage />} />
         </Routes>
       </Router>
     </div>
