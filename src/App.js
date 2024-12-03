@@ -87,8 +87,8 @@ function App() {
           title: movie.title || movie.name,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           slidingImage: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
-          rating: movie.vote_average.toFixed(1),
-          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
+          rating: (movie.vote_average / 2).toFixed(1),                                // Mapped to 5
+          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
           synopsis: movie.overview,
           releaseYear: movie.release_date
             ? movie.release_date.split("-")[0]
@@ -117,9 +117,10 @@ function App() {
           id: movie.id,
           title: movie.title,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
-          rating: movie.vote_average.toFixed(1),
-          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
+          rating: (movie.vote_average / 2).toFixed(1),
+          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
           synopsis: movie.overview,
+          releaseYear: movie.release_date ? movie.release_date.split("-")[0] : "N/A", // Extract year
         }));
         setMovies(moviesData);
       } catch (e) {
@@ -145,9 +146,10 @@ function App() {
           id: tvShow.id,
           title: tvShow.name, // Use 'name' for TV shows instead of 'title'
           image: `https://image.tmdb.org/t/p/w500${tvShow.poster_path}`,
-          rating: tvShow.vote_average.toFixed(1),
+          rating: (tvShow.vote_average / 2).toFixed(1),
           genres: tvShow.genre_ids.map((id) => genres[id] || "Unknown"), // Map genre IDs to genre names
           synopsis: tvShow.overview,
+          releaseYear: tvShow.release_date ? tvShow.release_date.split("-")[0] : "N/A", // Extract year
         }));
         console.log(tvShowsData);
         setTVShows(tvShowsData);

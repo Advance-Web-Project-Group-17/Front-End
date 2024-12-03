@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { FaSearch, FaStar, FaHeart } from "react-icons/fa";
 import styles from "./TVShowGrid.module.css"; // Importing the CSS module
+import MovieDetails from "../../components/MovieDetails";
 
 const TVShowGrid = ({ movies, handleMovieClick }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -247,12 +248,37 @@ const SearchBar = ({ setSearchResults }) => {
 };
 
 // MovieGrid Component
-const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup, handleAddToFavorite }) => (
-  <div className={styles.container}>
-    <h2 className={styles.title}>Movies</h2>
-    <div className={styles.grid}>
-      {movies.length > 0 ? (
-        movies.map((movie) => (
+const MovieGrid = ({ movies, handleAddToGroup, handleAddToFavorite }) =>  {
+  
+  //console.log("Rendering MovieGrid with movies:", movies);
+
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const detailsRef = useRef(null);
+
+  const handleMovieClick = (movie) => {
+    //console.log("Movie clicked:", movie);
+    if (selectedMovie && selectedMovie.id === movie.id) {
+      setSelectedMovie(null); // Collapse the details if clicked again
+    } else {
+      setSelectedMovie(movie);
+    }
+    // Scroll to the MovieDetails section
+    setTimeout(() => {
+      if (detailsRef.current) {
+        detailsRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }, 0); // Ensure the ref is available after rendering
+  };
+
+  const itemsPerRow = 4;
+
+  // Dynamically insert movie details in the grid
+  const renderMoviesWithDetails = () => {
+    const elements = [];
+    let currentRow = [];
+
+    movies.forEach((movie, index) => {
+      currentRow.push(
           <MovieCard
             key={movie.id}
             movie={movie}
@@ -260,13 +286,56 @@ const MovieGrid = ({ movies, handleMovieClick, handleAddToGroup, handleAddToFavo
             handleAddToGroup={() => handleAddToGroup(movie.id)}
             handleAddToFavorite={() => handleAddToFavorite(movie.id)} // Pass movie.id when clicked
           />
-        ))
-      ) : (
-        <p>No results found</p>
-      )}
+      );
+
+      // Check if we are at the end of the row or the last movie
+      const isRowEnd = (index + 1) % itemsPerRow === 0 || index === movies.length - 1;
+
+      if (isRowEnd) {
+        // Add the current row to the elements
+        elements.push(
+          <div key={`row-${Math.floor(index / itemsPerRow)}`} className={styles.gridRow}>
+            {currentRow}
+          </div>
+        );
+
+        // Insert movie details after this row if the selected movie is in this row
+        if (
+          selectedMovie &&
+          Math.floor(index / itemsPerRow) ===
+            Math.floor(movies.findIndex((m) => m.id === selectedMovie.id) / itemsPerRow)
+        ) {
+          elements.push(
+            <div 
+              key={`details-${selectedMovie.id}`}
+              className={styles.detailsContainer}
+              ref={detailsRef} // Attach the ref here for MovieDetails
+            >
+              <MovieDetails movie={selectedMovie} />
+            </div>
+          );
+        }
+
+        // Reset the current row
+        currentRow = [];
+      }
+    });
+
+    console.log(elements)
+
+    return elements;
+  };
+
+  return (
+    <div className={styles.container}>
+      <h2 className={styles.title}>TV Shows</h2>
+      <div className={styles.grid}>
+        {renderMoviesWithDetails()}
+      </div>
     </div>
-  </div>
-);
+  )
+
+};
 
 // MovieCard Component
 const MovieCard = ({ movie, handleMovieClick, handleAddToGroup, handleAddToFavorite }) => (
