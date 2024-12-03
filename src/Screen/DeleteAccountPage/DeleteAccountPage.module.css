@@ -1,0 +1,123 @@
+.container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1f2937; /* bg-gray-900 */
+    padding: 1rem;
+  }
+  
+  .formContainer {
+    max-width: 400px;
+    width: 100%;
+    background-color: #2d3748; /* bg-gray-800 */
+    padding: 2rem;
+    border-radius: 1rem;
+  }
+  
+  .titleContainer {
+    text-align: center;
+  }
+  
+  .title {
+    font-size: 1.875rem;
+    font-weight: bold;
+    color: white;
+  }
+  
+  .subtitle {
+    margin-top: 0.5rem;
+    color: #a0aec0; /* text-gray-400 */
+  }
+  
+  .form {
+    margin-top: 2rem;
+    display: grid;
+    gap: 1.5rem;
+  }
+  
+  .inputContainer label {
+    color: white;
+  }
+  
+  .inputField {
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #4a5568; /* border-gray-700 */
+    border-radius: 0.5rem;
+    background-color: #4a5568; /* bg-gray-700 */
+    color: white;
+  }
+  
+  .inputField::placeholder {
+    color: #a0aec0; /* placeholder-gray-400 */
+  }
+  
+  
+  
+  .submitButton {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    color: white;
+    background-color: #4299e1; /* bg-blue-600 */
+  }
+  
+  .submitButton:hover {
+    background-color: #2b6cb0; /* hover:bg-blue-700 */
+  }
+  
+  .dividerContainer {
+    margin-top: 1.5rem;
+    position: relative;
+  }
+  
+  .dividerLine {
+    width: 100%;
+    border-top: 1px solid #4a5568; /* border-gray-700 */
+  }
+  
+  .dividerText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #2d3748; /* bg-gray-800 */
+    padding: 0 0.5rem;
+    color: #a0aec0; /* text-gray-400 */
+  }
+  
+  .socialButtons {
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  
+  .socialButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border: 1px solid #4a5568; /* border-gray-700 */
+    border-radius: 0.5rem;
+    color: #a0aec0; /* text-gray-400 */
+    background-color: #4a5568; /* bg-gray-700 */
+  }
+  
+  .socialButton:hover {
+    background-color: #2d3748; /* hover:bg-gray-600 */
+  }
+  
+  .signInText {
+    text-align: center;
+    font-size: 0.875rem;
+    color: #a0aec0; /* text-gray-400 */
+  }
+  
+  .signInLink {
+    color: #4299e1; /* text-blue-600 */
+  }
+  
