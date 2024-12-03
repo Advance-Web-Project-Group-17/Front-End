@@ -15,6 +15,7 @@ import GroupListPage from "./Screen/GroupListPage/GroupListPage.jsx";
 import SharedProfilePage from "./Screen/SharedProfile/SharedProfile.jsx";
 import Profilelist from "./Screen/ProfileList/Profilelist.jsx";
 import DeleteAccountPage from "./Screen/DeleteAccountPage/DeleteAccountPage.jsx";
+import ProtectedRoute from "./utils/ProtectedRoute.jsx";
 import "./App.css";
 
 function App() {
@@ -163,28 +164,32 @@ function App() {
       <Router>
         <Navbar isLoggedIn={isLoggedIn} />
         <Routes>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/tvshows" element={<TVShowGrid movies={tvShows} />} />
+            <Route path="/group/:group_id" element={<GroupPage />} />
+            <Route path="/group" element={<GroupListPage />} />
+            <Route path="/movies" element={<MoviesPage movies={movies} />} />
+            <Route path="/profilelist" element={<Profilelist />} />
+            <Route
+              path="/sharedprofile/:user_id"
+              element={<SharedProfilePage />}
+            />
+            <Route path="/delete" element={<DeleteAccountPage />} />
+            <Route
+            path="/profile"
+            element={<ProfilePage setIsLoggedIn={setIsLoggedIn} />}
+          />
+          </Route>
           <Route path="/" element={<LandingPage movies={trendingMovies} />} />
-          <Route path="/movies" element={<MoviesPage movies={movies} />} />
+
           <Route path="/show" element={<ShowTimesPage />} />
           <Route
             path="/login"
             element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
           />
           <Route path="/register" element={<RegisterPage />} />
-          <Route
-            path="/profile"
-            element={<ProfilePage setIsLoggedIn={setIsLoggedIn} />}
-          />
+          
           <Route path="/edit" element={<EditProfilePage />} />
-          <Route path="/tvshows" element={<TVShowGrid movies={tvShows} />} />
-          <Route path="/group/:group_id" element={<GroupPage />} />
-          <Route path="/group" element={<GroupListPage />} />
-          <Route
-            path="/sharedprofile/:user_id"
-            element={<SharedProfilePage />}
-          />
-          <Route path="/profilelist" element={<Profilelist />} />
-          <Route path="/delete" element={<DeleteAccountPage />} />
         </Routes>
       </Router>
     </div>
