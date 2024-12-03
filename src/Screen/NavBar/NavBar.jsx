@@ -21,6 +21,9 @@ const Navbar = ({ isLoggedIn }) => {
       case "Group":
         navigate("/group");
         break;
+      case "Profile List":
+        navigate("/profilelist");
+        break;
       default:
         navigate("/");
         break;
@@ -54,7 +57,7 @@ const Navbar = ({ isLoggedIn }) => {
 
         {/* Navigation Buttons */}
         <div className={NavbarStyles.navbarButtonContainer}>
-          {["Movies", "TV Shows", "Show Times", "Group"].map((item) => (
+          {["Movies", "TV Shows", "Show Times", "Group", "Profile List"].map((item) => (
             <button
               key={item}
               onClick={() => handleNavBarButtonClick(item)}
@@ -94,7 +97,7 @@ const Navbar = ({ isLoggedIn }) => {
       {/* Mobile Menu */}
       {showMenu && (
         <div className={NavbarStyles.navbarMenu}>
-          {["Movies", "TV Shows", "Show Times", "Group"].map((item) => (
+          {["Movies", "TV Shows", "Show Times", "Group", "Profile List"].map((item) => (
             <button
               key={item}
               onClick={() => {

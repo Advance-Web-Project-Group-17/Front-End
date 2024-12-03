@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import LandingPage from './Screen/LandingPage/LandingPage.jsx';
+import LandingPage from "./Screen/LandingPage/LandingPage.jsx";
 import LoginPage from "./Screen/LoginPage/LoginPage.jsx";
 import RegisterPage from "./Screen/RegisterPage/RegisterPage.jsx";
 import Navbar from "./Screen/NavBar/NavBar.jsx";
@@ -13,21 +13,25 @@ import TVShowGrid from "./Screen/TvshowPage/TVShowGrid.jsx";
 import GroupPage from "./Screen/GroupPage/GroupPage.jsx";
 import GroupListPage from "./Screen/GroupListPage/GroupListPage.jsx";
 import SharedProfilePage from "./Screen/SharedProfile/SharedProfile.jsx";
-import './App.css';
+import Profilelist from "./Screen/ProfileList/Profilelist.jsx";
+import "./App.css";
 
 function App() {
   const [trendingMovies, setTrendingMovies] = useState([]);
   const [movies, setMovies] = useState([]);
   const [tvShows, setTVShows] = useState([]);
   const [genres, setGenres] = useState({});
-  const [isLoggedIn, setIsLoggedIn] = useState(sessionStorage.getItem("isLoggedIn") === "true");
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    sessionStorage.getItem("isLoggedIn") === "true"
+  );
 
   const apiKey = process.env.REACT_APP_API_KEY;
   const tmdbHeaders = {
     headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTMxNzIzMDk1ODE0OWM1N2VjM2FlNjc2ZWEwODUwYSIsIm5iZiI6MTczMTY2OTcxMC45MTAzNzQyLCJzdWIiOiI2NzMzMjdhZjFkNzJlYjY1ZjQyZTY5ZmEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.v7xAB7bBiSPC3axkDHPTrxRG9aDzg5E6b0oBfnG0TDs'
-    }
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTMxNzIzMDk1ODE0OWM1N2VjM2FlNjc2ZWEwODUwYSIsIm5iZiI6MTczMTY2OTcxMC45MTAzNzQyLCJzdWIiOiI2NzMzMjdhZjFkNzJlYjY1ZjQyZTY5ZmEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.v7xAB7bBiSPC3axkDHPTrxRG9aDzg5E6b0oBfnG0TDs",
+    },
   };
 
   // Fetch movie and TV genres and combine them
@@ -35,8 +39,14 @@ function App() {
     const fetchCombinedGenres = async () => {
       try {
         const [movieGenresResponse, tvGenresResponse] = await Promise.all([
-          axios.get('https://api.themoviedb.org/3/genre/movie/list?language=en', tmdbHeaders),
-          axios.get('https://api.themoviedb.org/3/genre/tv/list?language=en', tmdbHeaders)
+          axios.get(
+            "https://api.themoviedb.org/3/genre/movie/list?language=en",
+            tmdbHeaders
+          ),
+          axios.get(
+            "https://api.themoviedb.org/3/genre/tv/list?language=en",
+            tmdbHeaders
+          ),
         ]);
 
         // Combine movie and TV genres into one object
@@ -48,12 +58,12 @@ function App() {
           ...tvGenresResponse.data.genres.reduce((acc, genre) => {
             acc[genre.id] = genre.name;
             return acc;
-          }, {})
+          }, {}),
         };
 
         setGenres(combinedGenres);
       } catch (error) {
-        console.error('Error fetching genres:', error);
+        console.error("Error fetching genres:", error);
       }
     };
 
@@ -68,7 +78,7 @@ function App() {
           `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
         );
 
-        console.log(response)
+        console.log(response);
 
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
@@ -76,9 +86,11 @@ function App() {
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           slidingImage: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
           rating: movie.vote_average.toFixed(1),
-          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
+          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
           synopsis: movie.overview,
-          releaseYear: movie.release_date ? movie.release_date.split("-")[0] : "N/A", // Extract year
+          releaseYear: movie.release_date
+            ? movie.release_date.split("-")[0]
+            : "N/A", // Extract year
         }));
         setTrendingMovies(moviesData);
       } catch (e) {
@@ -104,7 +116,7 @@ function App() {
           title: movie.title,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           rating: movie.vote_average.toFixed(1),
-          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
+          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
           synopsis: movie.overview,
         }));
         setMovies(moviesData);
@@ -118,32 +130,32 @@ function App() {
     }
   }, [genres]);
 
+  useEffect(() => {
+    const fetchTVShows = async () => {
+      try {
+        const response = await axios.get(
+          `https://api.themoviedb.org/3/discover/tv`,
+          tmdbHeaders
+        );
 
-useEffect(() => {
-  const fetchTVShows = async () => {
-    try {
-      const response = await axios.get(
-        `https://api.themoviedb.org/3/discover/tv`,tmdbHeaders
-      );
+        // Map genre IDs to genre names
+        const tvShowsData = response.data.results.map((tvShow) => ({
+          id: tvShow.id,
+          title: tvShow.name, // Use 'name' for TV shows instead of 'title'
+          image: `https://image.tmdb.org/t/p/w500${tvShow.poster_path}`,
+          rating: tvShow.vote_average.toFixed(1),
+          genres: tvShow.genre_ids.map((id) => genres[id] || "Unknown"), // Map genre IDs to genre names
+          synopsis: tvShow.overview,
+        }));
+        console.log(tvShowsData);
+        setTVShows(tvShowsData);
+      } catch (e) {
+        console.error("Error fetching TV shows:", e);
+      }
+    };
 
-      // Map genre IDs to genre names
-      const tvShowsData = response.data.results.map((tvShow) => ({
-        id: tvShow.id,
-        title: tvShow.name, // Use 'name' for TV shows instead of 'title'
-        image: `https://image.tmdb.org/t/p/w500${tvShow.poster_path}`,
-        rating: tvShow.vote_average.toFixed(1),
-        genres: tvShow.genre_ids.map((id) => genres[id] || 'Unknown'), // Map genre IDs to genre names
-        synopsis: tvShow.overview,
-      }));
-      console.log(tvShowsData)
-      setTVShows(tvShowsData);
-    } catch (e) {
-      console.error("Error fetching TV shows:", e);
-    }
-  };
-
-  fetchTVShows();
-}, [genres]);
+    fetchTVShows();
+  }, [genres]);
 
   return (
     <div className="App">
@@ -153,14 +165,24 @@ useEffect(() => {
           <Route path="/" element={<LandingPage movies={trendingMovies} />} />
           <Route path="/movies" element={<MoviesPage movies={movies} />} />
           <Route path="/show" element={<ShowTimesPage />} />
-          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route
+            path="/login"
+            element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/profile" element={<ProfilePage setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route
+            path="/profile"
+            element={<ProfilePage setIsLoggedIn={setIsLoggedIn} />}
+          />
           <Route path="/edit" element={<EditProfilePage />} />
-          <Route path="/tvshows" element={<TVShowGrid movies={tvShows}/>} />
+          <Route path="/tvshows" element={<TVShowGrid movies={tvShows} />} />
           <Route path="/group/:group_id" element={<GroupPage />} />
           <Route path="/group" element={<GroupListPage />} />
-          <Route path="/sharedprofile/:user_id" element={<SharedProfilePage setIsLoggedIn={setIsLoggedIn}/>} />
+          <Route
+            path="/sharedprofile/:user_id"
+            element={<SharedProfilePage />}
+          />
+          <Route path="/profilelist" element={<Profilelist />} />
         </Routes>
       </Router>
     </div>
