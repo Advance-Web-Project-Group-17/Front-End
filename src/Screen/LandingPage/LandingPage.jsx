@@ -1,10 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaPlay, FaStar, FaTimes } from "react-icons/fa";
-import MovieGridStyles from "./MovieGrid.module.css";
+import { FaPlay } from "react-icons/fa";
 import FeaturedMovieStyles from "./FeaturedMovie.module.css";
 import LandingPageStyles from "./LandingPage.module.css";
-import MovieCard from "../../components/MovieCard";
-import MovieDetails from "../../components/MovieDetails";
 import MovieGrid from "../../components/MovieGrid";
 
 const LandingPage = ({ movies }) => {

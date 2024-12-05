@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate, Router } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./RegisterPage.module.css";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
@@ -19,9 +19,10 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (LoggedIn) {
-      return navigate("/edit");
+      navigate("/edit");
     }
-  }, [LoggedIn]);
+  }, [LoggedIn, navigate]);
+  
 
   const handleSignup = async (e) => {
     e.preventDefault();

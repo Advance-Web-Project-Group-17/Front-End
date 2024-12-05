@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./LoginPage.module.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -88,12 +88,6 @@ const LoginPage = ({setIsLoggedIn}) => {
               <label htmlFor="remember-me" className={styles.checkboxLabel}>
                 Remember me
               </label>
-            </div>
-
-            <div className={styles.link}>
-              <a href="#" className={styles.link}>
-                Forgot password?
-              </a>
             </div>
           </div>
 

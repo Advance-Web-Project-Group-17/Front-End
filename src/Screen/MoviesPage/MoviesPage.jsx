@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
 import { FaSearch, FaStar, FaHeart } from "react-icons/fa";
 import styles from "./MoviesPage.module.css"; // Importing the CSS module

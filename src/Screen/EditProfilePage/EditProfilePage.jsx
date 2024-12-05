@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, Router } from "react-router-dom";
+import React, { useState } from "react";
 import axios from "axios";
 import styles from "./EditProfilePage.module.css";
-import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const EditProfilePage = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
