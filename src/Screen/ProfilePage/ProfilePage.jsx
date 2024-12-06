@@ -13,21 +13,23 @@ const ProfilePage = ({ setIsLoggedIn }) => {
   const user_id = sessionStorage.getItem("id");
 
   // Fetch user's data from backend
-  const fetchUserData = async () => {
-    const user_id = sessionStorage.getItem("id");
-    if (user_id) {
-      try {
-        const response = await axios.get(`${baseUrl}/user/profile/${user_id}`);
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    }
-  };
-
   useEffect(() => {
+    const fetchUserData = async () => {
+      const user_id = sessionStorage.getItem("id");
+      if (user_id) {
+        try {
+          const response = await axios.get(
+            `${baseUrl}/user/profile/${user_id}`
+          );
+          setUserData(response.data);
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      }
+    };
+
     fetchUserData();
-  }, []);
+  }, [baseUrl]);
 
   useEffect(() => {
     const fetchUserGroup = async () => {
@@ -41,10 +43,10 @@ const ProfilePage = ({ setIsLoggedIn }) => {
       }
     };
     fetchUserGroup();
-  }, []);
+  }, [baseUrl, user_id]);
 
   const handleDeleteAccount = async () => {
-    navigate("/delete")
+    navigate("/delete");
   };
 
   const handleGroupClick = (group_id) => {
@@ -96,20 +98,20 @@ const ProfilePage = ({ setIsLoggedIn }) => {
       }
     };
     fetchUserFavorite();
-  }, []);
+  }, [baseUrl, user_id]);
   const shareProfile = async () => {
     const user_id = sessionStorage.getItem("id"); // Fetch from sessionStorage
     if (!user_id) {
       alert("User ID is missing. Please log in again.");
       return;
     }
-  
+
     try {
       const response = await axios.put(`${baseUrl}/user/profile/share`, {
         user_id, // Send user_id from sessionStorage
         is_shared: "true",
       });
-  
+
       if (response.status === 200) {
         alert("Profile shared successfully.");
       } else {
@@ -120,20 +122,20 @@ const ProfilePage = ({ setIsLoggedIn }) => {
       alert("An error occurred while sharing the profile.");
     }
   };
-  
+
   const unSharedProfile = async () => {
     const user_id = sessionStorage.getItem("id"); // Fetch from sessionStorage
     if (!user_id) {
       alert("User ID is missing. Please log in again.");
       return;
     }
-  
+
     try {
       const response = await axios.put(`${baseUrl}/user/profile/share`, {
         user_id, // Send user_id from sessionStorage
         is_shared: "false",
       });
-  
+
       if (response.status === 200) {
         alert("Profile unshared successfully.");
       } else {
@@ -144,8 +146,6 @@ const ProfilePage = ({ setIsLoggedIn }) => {
       alert("An error occurred while unsharing the profile.");
     }
   };
-  
-  
 
   return (
     <div className={styles.container}>

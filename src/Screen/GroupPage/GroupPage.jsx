@@ -33,7 +33,7 @@ const GroupPage = () => {
       }
     };
     FetchGroupFilm();
-  }, []);
+  }, [baseUrl, group_id]);
 
   useEffect(() => {
     const FetchGroupTvShow = async () => {
@@ -54,7 +54,7 @@ const GroupPage = () => {
       }
     };
     FetchGroupTvShow();
-  }, []);
+  }, [baseUrl, group_id]);
 
   useEffect(() => {
     const FetchGroupMembers = async () => {
@@ -68,7 +68,7 @@ const GroupPage = () => {
       }
     };
     FetchGroupMembers();
-  }, []);
+  }, [baseUrl, group_id]);
 
   const handleDeleteMovie = async (movie_id) => {
     try {
@@ -191,7 +191,7 @@ const GroupPage = () => {
       }
     }
     checkUserInGroup()
-  },[user_id, group_id])
+  },[user_id, group_id, baseUrl])
 
   const handleOutGroup = async () => {
     try {
@@ -235,17 +235,17 @@ const GroupPage = () => {
     if (user_id && group_id) {
       checkUserAdmin();
     }
-  }, [user_id, group_id]); // This will only run when `user_id` or `group_id` changes
+  }, [user_id, group_id, baseUrl, is_admin]); // This will only run when `user_id` or `group_id` changes
   
   return (
     <div className={styles.dashboard}>
       <header className={styles.header}>
-        {is_admin === true && (
+        {is_admin && (
           <>
             <button className={styles.deleteGroupButton} onClick={() => {handleDeleteGroup()}}>Delete group</button>
           </>
         )}
-        {isInGroup == false && (
+        {!isInGroup && (
           <button className={styles.newGroupButton} onClick={() => {handleJoinGroup()}}>Join group</button>
         )}
         <button className={styles.deleteGroupButton} onClick={() => {handleOutGroup()}}>Out group</button>
@@ -320,7 +320,7 @@ const GroupPage = () => {
                 >
                   Remove
                 </button>
-                {user_id != member.user_id && (
+                {user_id !== member.user_id && (
                     <button className={styles.grantAdminButton} onClick={() => {handleGrantAdmin(member.user_id)}}>Grant admin</button>
                 )}
               </div>

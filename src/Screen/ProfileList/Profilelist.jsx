@@ -22,7 +22,7 @@ export default function ProfileList() {
     };
 
     fetchUserData(); // Call the async function
-  }, []); // Empty dependency array ensures this runs only once
+  }, [baseUrl]); // Empty dependency array ensures this runs only once
 
   const handleProfileClick = (user_id) => {
     navigate(`/sharedprofile/${user_id}`);

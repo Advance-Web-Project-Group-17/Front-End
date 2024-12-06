@@ -13,20 +13,22 @@ const SharedProfilePage = () => {
   const user_id = useParams().user_id;
 
   // Fetch user's data from backend
-  const fetchUserData = async () => {
-    if (user_id) {
-      try {
-        const response = await axios.get(`${baseUrl}/user/profile/${user_id}`);
-        setUserData(response.data);
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    }
-  };
-
   useEffect(() => {
+    const fetchUserData = async () => {
+      if (user_id) {
+        try {
+          const response = await axios.get(
+            `${baseUrl}/user/profile/${user_id}`
+          );
+          setUserData(response.data);
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      }
+    };
+
     fetchUserData();
-  }, []);
+  }, [baseUrl, user_id]);
 
   useEffect(() => {
     const fetchUserGroup = async () => {
@@ -40,7 +42,7 @@ const SharedProfilePage = () => {
       }
     };
     fetchUserGroup();
-  }, []);
+  }, [baseUrl, user_id]);
 
   const handleGroupClick = (group_id) => {
     navigate(`/group/${group_id}`);
@@ -83,7 +85,7 @@ const SharedProfilePage = () => {
       }
     };
     fetchUserFavorite();
-  }, []);
+  }, [baseUrl, user_id]);
 
   return (
     <div className={styles.container}>
