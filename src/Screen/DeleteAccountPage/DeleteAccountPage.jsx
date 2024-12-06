@@ -29,7 +29,7 @@ const DeleteAccountPage = () => {
       });
   
       if (response.status === 200) {
-        alert("Delete account successfully")
+        alert("Delete account successfully");
         onLogout(); // Log out the user upon successful deletion
       }
       if (response.status === 400) {
