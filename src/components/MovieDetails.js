@@ -77,7 +77,7 @@ const MovieDetails = ({ movie }) => {
   
   const closeModal = () => {
     setShowModal(false);
-    setFullReview("");
+    setFullReview("")
     document.body.classList.remove("modal-open"); // Re-enable background scrolling
   };
 
