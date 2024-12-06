@@ -6,7 +6,7 @@ const MovieDetails = ({ movie }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  const [setError] = useState("");
+  const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [startIndex, setStartIndex] = useState(0); // Tracks the starting index for the visible reviews
   const [showModal, setShowModal] = useState(false); // State for modal
@@ -14,20 +14,20 @@ const MovieDetails = ({ movie }) => {
   const visibleCount = 3; // Number of reviews visible at a time
 
   useEffect(() => {
+    const fetchReviews = async (movieId) => {
+      try {
+        const movieReviews = await getReviews(movieId);
+        setReviews(movieReviews);
+      } catch (err) {
+        console.error("Error fetching reviews:", err);
+        setError("Failed to fetch reviews. Please try again later.");
+        console.log(error)
+      }
+    };
     if (movie && movie.id) {
       fetchReviews(movie.id);
     }
-  }, [movie]);
-
-  const fetchReviews = async (movieId) => {
-    try {
-      const movieReviews = await getReviews(movieId);
-      setReviews(movieReviews);
-    } catch (err) {
-      console.error("Error fetching reviews:", err);
-      setError("Failed to fetch reviews. Please try again later.");
-    }
-  };
+  }, [movie, error]);
 
   const handleAddReview = async (e) => {
     e.preventDefault();
@@ -60,8 +60,8 @@ const MovieDetails = ({ movie }) => {
   };
 
   const handlePrev = () => {
-    setStartIndex((prevIndex) =>
-      (prevIndex - 1 + reviews.length) % reviews.length
+    setStartIndex(
+      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
     );
   };
 
@@ -74,10 +74,10 @@ const MovieDetails = ({ movie }) => {
     setShowModal(true);
     document.body.classList.add("modal-open"); // Disable background scrolling
   };
-  
+
   const closeModal = () => {
     setShowModal(false);
-    setFullReview("")
+    setFullReview("");
     document.body.classList.remove("modal-open"); // Re-enable background scrolling
   };
 
@@ -123,10 +123,7 @@ const MovieDetails = ({ movie }) => {
                 </button>
                 <div className={MovieDetailsStyles.carouselContent}>
                   {visibleReviews.map((review, index) => (
-                    <div
-                      key={index}
-                      className={MovieDetailsStyles.reviewCard}
-                    >
+                    <div key={index} className={MovieDetailsStyles.reviewCard}>
                       <p>
                         <strong>⭐ {review?.rating}/5</strong>
                       </p>
@@ -194,14 +191,16 @@ const MovieDetails = ({ movie }) => {
       {showModal && (
         <div className={MovieDetailsStyles.modal}>
           <div className={MovieDetailsStyles.modalContent}>
-            <button onClick={closeModal} className={MovieDetailsStyles.modalCloseButton}>
+            <button
+              onClick={closeModal}
+              className={MovieDetailsStyles.modalCloseButton}
+            >
               ×
             </button>
             <p className={MovieDetailsStyles.modalFullReview}>{fullReview}</p>
           </div>
         </div>
       )}
-
     </div>
   );
 };
