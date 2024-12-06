@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useMemo } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import LandingPage from "./Screen/LandingPage/LandingPage.jsx";
@@ -28,13 +29,17 @@ function App() {
   );
 
   const apiKey = process.env.REACT_APP_API_KEY;
-  const tmdbHeaders = {
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTMxNzIzMDk1ODE0OWM1N2VjM2FlNjc2ZWEwODUwYSIsIm5iZiI6MTczMTY2OTcxMC45MTAzNzQyLCJzdWIiOiI2NzMzMjdhZjFkNzJlYjY1ZjQyZTY5ZmEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.v7xAB7bBiSPC3axkDHPTrxRG9aDzg5E6b0oBfnG0TDs",
-    },
-  };
+  const tmdbHeaders = useMemo(
+    () => ({
+      headers: {
+        accept: "application/json",
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTMxNzIzMDk1ODE0OWM1N2VjM2FlNjc2ZWEwODUwYSIsIm5iZiI6MTczMTY2OTcxMC45MTAzNzQyLCJzdWIiOiI2NzMzMjdhZjFkNzJlYjY1ZjQyZTY5ZmEiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.v7xAB7bBiSPC3axkDHPTrxRG9aDzg5E6b0oBfnG0TDs",
+      },
+    }),
+    []
+  );
+  
 
   // Fetch movie and TV genres and combine them
   useEffect(() => {
@@ -50,8 +55,7 @@ function App() {
             tmdbHeaders
           ),
         ]);
-
-        // Combine movie and TV genres into one object
+  
         const combinedGenres = {
           ...movieGenresResponse.data.genres.reduce((acc, genre) => {
             acc[genre.id] = genre.name;
@@ -62,15 +66,16 @@ function App() {
             return acc;
           }, {}),
         };
-
+  
         setGenres(combinedGenres);
       } catch (error) {
         console.error("Error fetching genres:", error);
       }
     };
-
+  
     fetchCombinedGenres();
-  }, []);
+  }, [tmdbHeaders]); // Add tmdbHeaders to the dependency array
+  
 
   // Fetch trending movies
   useEffect(() => {
@@ -79,31 +84,31 @@ function App() {
         const response = await axios.get(
           `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
         );
-
-        console.log(response);
-
+  
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
           title: movie.title || movie.name,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           slidingImage: `https://image.tmdb.org/t/p/w1280${movie.backdrop_path}`,
-          rating: (movie.vote_average / 2).toFixed(1),                                // Mapped to 5
-          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
+          rating: (movie.vote_average / 2).toFixed(1),
+          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
           synopsis: movie.overview,
           releaseYear: movie.release_date
             ? movie.release_date.split("-")[0]
-            : "N/A", // Extract year
+            : "N/A",
         }));
+  
         setTrendingMovies(moviesData);
       } catch (e) {
         console.error("Error fetching movies:", e);
       }
     };
-
+  
     if (Object.keys(genres).length > 0) {
       fetchTrendingMovies();
     }
-  }, [genres]);
+  }, [genres, apiKey]); // Add apiKey to the dependency array
+  
 
   // Fetch movies
   useEffect(() => {
@@ -112,26 +117,30 @@ function App() {
         const response = await axios.get(
           `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`
         );
-
+  
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
           title: movie.title,
           image: `https://image.tmdb.org/t/p/w500${movie.poster_path}`,
           rating: (movie.vote_average / 2).toFixed(1),
-          genres: movie.genre_ids.map((id) => genres[id] || 'Unknown'),
+          genres: movie.genre_ids.map((id) => genres[id] || "Unknown"),
           synopsis: movie.overview,
-          releaseYear: movie.release_date ? movie.release_date.split("-")[0] : "N/A", // Extract year
+          releaseYear: movie.release_date
+            ? movie.release_date.split("-")[0]
+            : "N/A",
         }));
+  
         setMovies(moviesData);
       } catch (e) {
         console.error("Error fetching movies:", e);
       }
     };
-
+  
     if (Object.keys(genres).length > 0) {
       fetchMovies();
     }
-  }, [genres]);
+  }, [genres, apiKey]); // Add apiKey to the dependency array
+  
 
   useEffect(() => {
     const fetchTVShows = async () => {
@@ -140,26 +149,28 @@ function App() {
           `https://api.themoviedb.org/3/discover/tv`,
           tmdbHeaders
         );
-
-        // Map genre IDs to genre names
+  
         const tvShowsData = response.data.results.map((tvShow) => ({
           id: tvShow.id,
-          title: tvShow.name, // Use 'name' for TV shows instead of 'title'
+          title: tvShow.name,
           image: `https://image.tmdb.org/t/p/w500${tvShow.poster_path}`,
           rating: (tvShow.vote_average / 2).toFixed(1),
-          genres: tvShow.genre_ids.map((id) => genres[id] || "Unknown"), // Map genre IDs to genre names
+          genres: tvShow.genre_ids.map((id) => genres[id] || "Unknown"),
           synopsis: tvShow.overview,
-          releaseYear: tvShow.release_date ? tvShow.release_date.split("-")[0] : "N/A", // Extract year
+          releaseYear: tvShow.release_date
+            ? tvShow.release_date.split("-")[0]
+            : "N/A",
         }));
-        console.log(tvShowsData);
+  
         setTVShows(tvShowsData);
       } catch (e) {
         console.error("Error fetching TV shows:", e);
       }
     };
-
+  
     fetchTVShows();
-  }, [genres]);
+  }, [genres, tmdbHeaders]); // Add tmdbHeaders to the dependency array
+  
 
   return (
     <div className="App">

@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styles from "./GroupListPage.module.css";
 
 const GroupListPage = () => {
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const baseUrl = useMemo(() => process.env.REACT_APP_BASE_URL, []);
   const [groups, setGroups] = useState([]);
   const [groupName, setGroupName] = useState("");
   const user_id = sessionStorage.getItem("id")
@@ -19,15 +19,16 @@ const GroupListPage = () => {
     const fetchGroups = async () => {
       try {
         const response = await axios.get(`${baseUrl}/group/getGroup`);
-        console.log("group:" + response.data)
+        console.log("group:" + response.data);
         setGroups(response.data); // Assuming response contains groups
       } catch (error) {
         console.error("Error fetching groups:", error);
       }
     };
-
+  
     fetchGroups();
-  }, []);
+  }, [baseUrl]); // Add baseUrl to the dependency array
+  
 
   const handleCreateGroup = async (e) => {
     e.preventDefault();
