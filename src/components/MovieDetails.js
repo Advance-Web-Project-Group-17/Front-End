@@ -6,7 +6,7 @@ const MovieDetails = ({ movie }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  const [error, setError] = useState("");
+  const [setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [startIndex, setStartIndex] = useState(0); // Tracks the starting index for the visible reviews
   const [showModal, setShowModal] = useState(false); // State for modal
