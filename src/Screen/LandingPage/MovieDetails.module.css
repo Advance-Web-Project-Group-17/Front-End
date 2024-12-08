@@ -315,6 +315,27 @@ button:disabled {
   position: relative; /* To position the close button */
 }
 
+/* Modal Content after submitting review */
+.modalContentConfirm {
+  background: #2d3748; /* Match dark theme */
+  color: #e2e8f0; /* Softer text color */
+  padding: 2rem;
+  padding-top: 3rem;
+  border-radius: 12px;
+  max-width: 600px;
+  max-height: 80%; /* Prevent overflow on smaller screens */
+  width: 90%; /* Responsive width */
+  overflow-y: auto; /* Scrollable for long text */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Soft shadow */
+  position: relative; /* To position the close button */
+  display: flex; /* Use flexbox to center content */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  text-align: center; /* Center the text */
+  font-size: 1.5rem; /* Increase font size */
+  font-weight: bold; /* Make text bold */
+}
+
 .modalCloseButton {
   position: absolute;
   top: 0px; /* Adjusted to move above the modal content */
@@ -369,6 +390,13 @@ button:disabled {
 body.modal-open {
   overflow: hidden;
 }
+
+.emptyCard {
+  background-color: transparent;
+  border: 1px transparent #4a5568;
+  min-height: 150px;
+}
+
 
 
 

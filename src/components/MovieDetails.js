@@ -8,26 +8,29 @@ const MovieDetails = ({ movie }) => {
   const [rating, setRating] = useState(0);
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [startIndex, setStartIndex] = useState(0); // Tracks the starting index for the visible reviews
-  const [showModal, setShowModal] = useState(false); // State for modal
-  const [fullReview, setFullReview] = useState(""); // State for full review text
-  const visibleCount = 3; // Number of reviews visible at a time
+  const [showModal, setShowModal] = useState(false);
+  const [fullReview, setFullReview] = useState("");
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [startIndex, setStartIndex] = useState(0);
+
+  const visibleCount = 3;
+
+  // Fetch reviews from the backend
+  const fetchReviews = async (movieId) => {
+    try {
+      const movieReviews = await getReviews(movieId);
+      setReviews(movieReviews);
+    } catch (err) {
+      console.error("Error fetching reviews:", err);
+      setError("Failed to fetch reviews. Please try again later.");
+    }
+  };
 
   useEffect(() => {
-    const fetchReviews = async (movieId) => {
-      try {
-        const movieReviews = await getReviews(movieId);
-        setReviews(movieReviews);
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
-        setError("Failed to fetch reviews. Please try again later.");
-        console.log(error)
-      }
-    };
     if (movie && movie.id) {
       fetchReviews(movie.id);
     }
-  }, [movie, error]);
+  }, [movie]);
 
   const handleAddReview = async (e) => {
     e.preventDefault();
@@ -38,31 +41,26 @@ const MovieDetails = ({ movie }) => {
 
     try {
       setIsSubmitting(true);
-      const newReview = await postReview({
+      await postReview({
         movie_id: movie.id,
         review_text: reviewText,
         rating,
       });
-      setReviews((prevReviews) => [...prevReviews, newReview.review]);
+
+      // Reset form fields
       setReviewText("");
       setRating(0);
       setError("");
+      setShowConfirmation(true);
+
+      // Fetch updated reviews after submission
+      await fetchReviews(movie.id);
     } catch (err) {
       console.error("Error adding review:", err);
       setError("Failed to add review. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const handleNext = () => {
-    setStartIndex((prevIndex) => (prevIndex + 1) % reviews.length);
-  };
-
-  const handlePrev = () => {
-    setStartIndex(
-      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
-    );
   };
 
   const handleStarClick = (starIndex) => {
@@ -72,23 +70,50 @@ const MovieDetails = ({ movie }) => {
   const handleReadMore = (review) => {
     setFullReview(review);
     setShowModal(true);
-    document.body.classList.add("modal-open"); // Disable background scrolling
+    document.body.classList.add("modal-open");
   };
 
   const closeModal = () => {
     setShowModal(false);
+    setShowConfirmation(false);
     setFullReview("");
-    document.body.classList.remove("modal-open"); // Re-enable background scrolling
+    document.body.classList.remove("modal-open");
   };
+
+  const handleNext = () => {
+    if (reviews.length > visibleCount) {
+      setStartIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    }
+  };
+
+  const handlePrev = () => {
+    if (reviews.length > visibleCount) {
+      setStartIndex(
+        (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
+      );
+    }
+  };
+
+  const getVisibleReviews = () => {
+    const visibleReviews = [];
+    if (reviews.length > visibleCount) {
+      // Circular buffer logic when reviews > visibleCount
+      for (let i = 0; i < visibleCount; i++) {
+        visibleReviews.push(reviews[(startIndex + i) % reviews.length]);
+      }
+    } else {
+      // Static empty slots when reviews <= visibleCount
+      for (let i = 0; i < visibleCount; i++) {
+        visibleReviews.push(reviews[i] || null);
+      }
+    }
+    return visibleReviews;
+  };
+
+  const visibleReviews = getVisibleReviews();
 
   if (!movie) {
     return <p>No movie selected.</p>;
-  }
-
-  // Compute the visible reviews based on the current start index
-  const visibleReviews = [];
-  for (let i = 0; i < visibleCount; i++) {
-    visibleReviews.push(reviews[(startIndex + i) % reviews.length]);
   }
 
   return (
@@ -115,41 +140,52 @@ const MovieDetails = ({ movie }) => {
             <h2>User Reviews</h2>
             {reviews.length > 0 ? (
               <div className={MovieDetailsStyles.carouselContainer}>
-                <button
-                  className={`${MovieDetailsStyles.carouselButton} ${MovieDetailsStyles.left}`}
-                  onClick={handlePrev}
-                >
-                  ◀
-                </button>
+                {reviews.length > visibleCount && (
+                  <button
+                    className={`${MovieDetailsStyles.carouselButton} ${MovieDetailsStyles.left}`}
+                    onClick={handlePrev}
+                  >
+                    ◀
+                  </button>
+                )}
                 <div className={MovieDetailsStyles.carouselContent}>
-                  {visibleReviews.map((review, index) => (
-                    <div key={index} className={MovieDetailsStyles.reviewCard}>
-                      <p>
-                        <strong>⭐ {review?.rating}/5</strong>
-                      </p>
-                      <p>
-                        {review?.review_text.length > 100
-                          ? `${review.review_text.slice(0, 100)}...`
-                          : review.review_text}
-                        {review?.review_text.length > 100 && (
-                          <span
-                            className={MovieDetailsStyles.readMore}
-                            onClick={() => handleReadMore(review.review_text)}
-                          >
-                            Read More
-                          </span>
-                        )}
-                      </p>
-                      <small>— {review?.user_name}</small>
-                    </div>
-                  ))}
+                  {visibleReviews.map((review, index) =>
+                    review ? (
+                      <div key={index} className={MovieDetailsStyles.reviewCard}>
+                        <p>
+                          <strong>⭐ {review?.rating}/5</strong>
+                        </p>
+                        <p>
+                          {review?.review_text.length > 100
+                            ? `${review.review_text.slice(0, 100)}...`
+                            : review.review_text}
+                          {review?.review_text.length > 100 && (
+                            <span
+                              className={MovieDetailsStyles.readMore}
+                              onClick={() => handleReadMore(review.review_text)}
+                            >
+                              Read More
+                            </span>
+                          )}
+                        </p>
+                        <small>— {review?.user_name}</small>
+                      </div>
+                    ) : (
+                      <div
+                        key={index}
+                        className={`${MovieDetailsStyles.reviewCard} ${MovieDetailsStyles.emptyCard}`}
+                      />
+                    )
+                  )}
                 </div>
-                <button
-                  className={`${MovieDetailsStyles.carouselButton} ${MovieDetailsStyles.right}`}
-                  onClick={handleNext}
-                >
-                  ▶
-                </button>
+                {reviews.length > visibleCount && (
+                  <button
+                    className={`${MovieDetailsStyles.carouselButton} ${MovieDetailsStyles.right}`}
+                    onClick={handleNext}
+                  >
+                    ▶
+                  </button>
+                )}
               </div>
             ) : (
               <p>No reviews yet. Be the first to review!</p>
@@ -187,6 +223,21 @@ const MovieDetails = ({ movie }) => {
         </button>
       </form>
 
+      {/* Confirmation Modal */}
+      {showConfirmation && (
+        <div className={MovieDetailsStyles.modal}>
+          <div className={MovieDetailsStyles.modalContentConfirm}>
+            <p>Review submitted successfully!</p>
+            <button
+              onClick={closeModal}
+              className={MovieDetailsStyles.modalCloseButton}
+            >
+              x
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Modal for Full Review */}
       {showModal && (
         <div className={MovieDetailsStyles.modal}>
@@ -201,7 +252,8 @@ const MovieDetails = ({ movie }) => {
           </div>
         </div>
       )}
-    </div>
+  </div>
+
   );
 };
 
