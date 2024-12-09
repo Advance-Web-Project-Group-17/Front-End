@@ -33,7 +33,7 @@ jobs:
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
         env: 
-          REACT_APP_API_KEY: eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMTMxNzIzMDk1ODE0OWM1N2VjM2FlNjc2ZWEwODUwYSIsIm5iZiI6MTczMTQwNTc0My4wOTksInN1YiI6IjY3MzMyN2FmMWQ3MmViNjVmNDJlNjlmYSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.uKkHrjlx2YTTgaowhWIncx6HcSKgWkeliC39wbl2kaw
+          REACT_APP_API_KEY: 01317230958149c57ec3ae676ea0850a
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
