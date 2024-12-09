@@ -8,13 +8,15 @@ const LoginPage = ({setIsLoggedIn}) => {
   const [loginData, setLoginData] = useState({ user_name: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
+  const baseUrl = process.env.REACT_APP_BASE_URL
 
   const handleLogin = async (e) => {
     e.preventDefault();
     console.log("Login data:", loginData);
+    console.log(baseUrl);
 
     try {
-      const response = await axios.post("http://localhost:3001/user/login", {
+      const response = await axios.post(`${baseUrl}/user/login`, {
         user_name: loginData.user_name,
         password: loginData.password,
       });

@@ -5,7 +5,7 @@ import styles from "./RegisterPage.module.css";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const RegisterPage = () => {
-  const baseUrl = "http://localhost:3001";
+  const baseUrl = process.env.REACT_APP_BASE_URL;
   const [signupData, setSignupData] = useState({
     user_name: "",
     email: "",

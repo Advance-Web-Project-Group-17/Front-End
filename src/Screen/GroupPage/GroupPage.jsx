@@ -75,20 +75,47 @@ const GroupPage = () => {
       const response = await axios.delete(
         `${baseUrl}/group/deleteMovie/${group_id}`,
         {
-          data: { movie_id }, // Pass movie_id in the data object
+          data: { movie_id, user_id } // Pass movie_id and user_id in the request body
         }
       );
-
+  
       if (response.status === 200) {
         setGroupMovies((prevMovies) =>
           prevMovies.filter((movie) => movie.id !== movie_id)
         );
         console.log("Movie deleted successfully");
+      } 
+      if(response.status === 403){
+        alert("You can not delete this movie")
       }
     } catch (error) {
       console.error("Error deleting movie:", error);
     }
   };
+  
+  const handleDeleteTvShow = async (tv_id) => {
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/group/deleteTvShow/${group_id}`,
+        {
+          data: { tv_id, user_id } // Pass tv_id and user_id in the request body
+        }
+      );
+  
+      if (response.status === 200) {
+        setGroupTvShows((prevShows) =>
+          prevShows.filter((show) => show.id !== tv_id)
+        );
+        console.log("TV show deleted successfully");
+      }
+      if(response.status === 403){
+        alert("You can not delete this tv show")
+      }
+    } catch (error) {
+      console.error("Error deleting TV show:", error);
+    }
+  };
+  
 
   const handleRemoveUser = async (removed_id) => {
     console.log("Removing user with ID:", removed_id, "from group:", group_id, "by user:", user_id);
@@ -248,7 +275,10 @@ const GroupPage = () => {
         {!isInGroup && (
           <button className={styles.newGroupButton} onClick={() => {handleJoinGroup()}}>Join group</button>
         )}
+        {isInGroup && (
+
         <button className={styles.deleteGroupButton} onClick={() => {handleOutGroup()}}>Out group</button>
+        )}
       </header>
 
       {/* Showtimes Section */}
@@ -293,7 +323,7 @@ const GroupPage = () => {
                   <strong>Rating:</strong> {movie.rating}
                   <button
                     className={styles.deleteMovieButton}
-                    onClick={() => handleDeleteMovie(movie.id)}
+                    onClick={() => handleDeleteTvShow(movie.id)}
                   >
                     Delete
                   </button>
