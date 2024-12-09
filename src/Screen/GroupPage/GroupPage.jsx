@@ -320,7 +320,7 @@ const GroupPage = () => {
                 >
                   Remove
                 </button>
-                {user_id !== member.user_id && (
+                {user_id != member.user_id && (
                     <button className={styles.grantAdminButton} onClick={() => {handleGrantAdmin(member.user_id)}}>Grant admin</button>
                 )}
               </div>
