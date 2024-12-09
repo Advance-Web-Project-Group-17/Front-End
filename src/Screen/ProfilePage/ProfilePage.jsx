@@ -57,6 +57,7 @@ const ProfilePage = ({ setIsLoggedIn }) => {
     sessionStorage.removeItem("id");
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("token");
+    sessionStorage.removeItem("is_admin")
     setIsLoggedIn(false);
     navigate("/");
   };
