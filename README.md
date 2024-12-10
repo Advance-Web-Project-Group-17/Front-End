@@ -51,7 +51,7 @@ The application follows a client-server architecture. The frontend is built with
 
 ### **Installations Steps**
 
-1. Clone the repository: 
+1. Clone the repository:
 
 ```bash
 git clone https://github.com/Advance-Web-Project-Group-17/Server.git
@@ -60,19 +60,24 @@ git clone https://github.com/Advance-Web-Project-Group-17/Front-End.git
 ```
 
 2. Install dependencies:
-    - For the backend
+- For the backend
+
 ```bash
 cd Server
 npm install
 ```
-    - For the frontend
+
+- For the frontend
+
 ```bash
 cd Front-End
 npm install
 ```
 
 3. Set up environment variables (create a `.env` file in both the frontend and backend directories):
+
 - Backend (`.env`)
+
 ```makefile
 PORT = 3001
 DB_USER = postgres
@@ -87,18 +92,23 @@ EMAIL_USER=your email
 EMAIL_PASS=your password
 API_KEY=your TMDB api key
 ```
+
 - Frontend (`.env`)
+
 ```makefile
 REACT_APP_API_KEY=your TMDB api key
 REACT_APP_BASE_URL=http://localhost:3001
 ```
+
 4. Start the backend server:
+
 ```bash
 cd Server
 npm run devStart
 ```
 
 5. Start the frontend
+
 ```bash
 cd Front-End
 npm start
@@ -125,7 +135,569 @@ npm start
 
 - [Movie App](https://mango-ground-00e600d03.4.azurestaticapps.net)
 
-## **GitHub Project Name
+## **Link to other documentation**
 
-The project is named "Movie Web Application" in the GitHub repository, reflecting the core functionality of the app. 
+- [Databse Diagram](https://dbdiagram.io/d/673770eee9daa85aca9a9d17)
 
+## **GitHub Project Name**
+
+The project is named "Movie Web Application" in the GitHub repository, reflecting the core functionality of the app.
+
+---
+
+# **API Documentation**
+
+## **Overview**
+
+This API enables user authentication, email confirmation when register, and interactions with the TMDB API for fetching movie and TV show datas as well as Finkkino API for fetching show times. It supports secure operations features like bcrypt-based password handling and JWT authentication
+
+---
+
+## **User**
+
+1. **Register User**
+   **Endpoint**: `POST /user/register`
+   Registers a new user and sends a confirmation email
+
+**Request**
+
+```json
+{
+    "username": string,
+    "email": string,
+    "password": string
+}
+```
+
+**Response**
+
+- **201 Created**: User registered successfully. A confirmation email is sent.
+- **400 Bad Request**: Invalid request data.
+
+---
+
+2. **Confirm Email**
+   **Endpoint**: `GET /user/confirm/:token`
+   Confirms a user's email using a token sent in the registration email.
+
+**Response**
+
+- **200 OK**: Email confirmed successfully.
+- **400 Bad Request**: Invalid or expired token.
+
+---
+
+3. **Login User**
+   **Endpoint**: `POST /user/login`  
+   Logs in a user and returns a JWT token.
+
+**Request**
+
+```json
+{
+  "email": "string",
+  "password": "string"
+}
+```
+
+**Response**
+
+- **200 OK**: Successful login and JWT token returned.
+- **401 Unauthorized**: Invalid credentials.
+
+---
+
+4. **Delete user's account**
+   **Endpoint**: `DELETE /user/delete`
+   Deletes a user's account.
+
+**Request**
+
+```json
+{
+  "password": "string"
+}
+```
+
+**Response**
+
+- **200 OK**: User account deleted successfully.
+- **401 Bad Request**: Wrong password or admin of somegroup.
+
+---
+
+5. **Get user's profile**
+   Return user's information
+
+**Endpoint**: `GET /user/profile/:user_id`
+
+**Response**
+
+- **200 OK**: User's information returned.
+- **404 Not Found**: User not found.
+
+---
+
+6. **Edit profile**
+   Allow logged in user to edit profile
+
+**Endpoint**: `PUT /user/profile/edit/:user_id`
+
+**Request**
+
+```json
+{
+  "nick_name": "string",
+  "location": "string"
+}
+```
+
+**Response**
+
+- **200 OK**: Profile updated successfully.
+- **400 Unauthorized**: Not logged in.
+
+---
+
+7. **Get user's group**
+   Return all group that user attended in
+
+**Endpoint**: `GET /user/group/:user_id`
+
+**Response**
+
+- **200 OK**: Group information returned.
+- **404 Not Found**: User not found.
+
+---
+
+8. **Share profile**
+   Allow user to share profile with other user or unshare profile
+
+**Endpoint**: `PUT /user/profile/share`
+
+**Request**
+
+```json
+{
+  "user_id": "integer"
+}
+```
+
+**Response**
+
+- **200 OK**: Profile shared successfully.
+- **404 Unauthorized**: User not found.
+
+---
+
+9. **Get all shared profile**
+   Return all shared profile of user
+
+**Endpoint**: `GET /user/shared`
+
+**Response**
+
+- **200 OK**: Shared profile information returned.
+- **404 Not Found**: No shared profile found.
+
+---
+
+## **Group**
+
+1. **Create group**
+   Create group and the group's creater is an admin of group
+
+**Endpoint**: `POST /group/create`
+
+**Request**
+
+```json
+{
+  "group_name": "string",
+  "user_id": "integer"
+}
+```
+
+**Response**
+
+- **200 OK**: Group created successfully.
+- **404 Unauthorized**: User not found.
+
+---
+
+2. **Get all group**
+   Return all group of user
+
+**Endpoint**: `GET /group/getGroup`
+
+**Response**
+
+- **200 OK**: Group name returned.
+- **404 Not Found**: No group found.
+
+3. **Get specific group**
+   Return specific group of user based on group_id
+
+**Endpoint**: `GET /group/getGroup/:group_id
+
+**Response**
+
+- **200 OK**: Group name returned.
+- **404 Not Found**: No group found.
+
+4. **Remove group**
+   Remove group and all things related to that group
+
+**Endpoint**: `DELETE /group/removeGroup/:group_id
+
+**Response**
+
+- **200 OK**: Group removed successfully.
+- **403 Not Found**: User is not admin of the group.
+- **404 Not Found**: No group found.
+
+5. **Add member to group**
+   Add member to group
+
+**Endpoint**: `POST /group/addmember`
+
+**Request**
+
+```json
+{
+  "group_id": "string",
+  "user_id": "string"
+}
+```
+
+**Response**
+- **200 OK**: Member added successfully.
+- **400 Not Found**: Missing or invalid input
+
+6. **Remove member from group**
+Removes a member from a group. Requires admin rights.
+
+**Endpoint**: `DELETE /group/removeMember`
+
+**Request**
+```json
+{
+  "group_id": "string",
+  "user_id": "string",
+  "removed_id": "string"
+}
+```
+**Response**
+- **200 OK**: Member removed successfully.
+- **403 Not Found**: User is not admin of the group.
+- **404 Not Found**: Removed user not found in group.
+
+7. **Get group's member**
+Fetches the list of members in a group.
+
+**Endpoint**: `GET /group/getMember/:group_id`
+
+**Response**
+- **200 OK**: List of members in the group.
+- **404 Not Found**: No group found.
+
+7. **Grant admin right**
+Grant admin right to a user in a group.
+
+**Endpoint**: `PUT /grantAdmin/:group_id`
+
+**Request**
+```json
+{
+  "grantedMemberId": "string",
+  "user_id": "string"
+}
+```
+**Response**
+- **200 OK**: Admin right granted successfully.
+- **403 Forbidden**: User is not admin of the group.
+- **400 Bad Request**: Missing field.
+
+8. **Add Movie to Group**
+Add a movie to a group.
+
+**Endpoint**: `POST /group/addMovie`
+
+**Request**
+```json
+{
+  "group_id": "string",
+  "movie_id": "string",
+  "user_id": "string"
+}
+```
+**Response**    
+- **200 OK**: Movie added successfully.
+- **403 Forbidden**: User is not a member of the group.
+
+9. **Add TV Show to Group**
+Add a TV show to a group.
+
+**Endpoint**: `POST /group/addTvShow`
+
+**Request**
+```json
+{
+  "group_id": "string",
+  "tv_id": "string",
+  "user_id": "string"
+}
+```
+**Response**    
+- **200 OK**: Tv show added successfully.
+- **403 Forbidden**: User is not a member of the group.
+
+10. **Get Group Movies**
+Get all movies in a group.
+
+**Endpoint**: `GET /group/getMovie/:group_id`
+
+**Response**
+- **200 OK**: List of movies.
+- **500 Internal Server Error**: If any error occurs.
+
+11. **Get Group TV Shows**
+Get all TV shows in a group.
+
+**Endpoint**: `GET /group/getTvShow/:group_id`
+
+**Response**
+- **200 OK**: List of tv shows.
+- **500 Internal Server Error**: If any error occurs.
+
+12. **Delete Movie from Group**
+Removes a movie from a group if added by the user.
+
+**Endpoint**: `DELETE /group/deleteMovie/:group_id`
+
+**Request**
+```json
+{
+  "movie_id": "string",
+  "user_id": "string"
+}
+```
+
+**Response**
+- **200 OK**: Movie deleted successfully.
+- **403 Forbidden**: User is not a person who added movie to group.
+
+13. **Delete TV Show from Group**
+Removes a TV show from a group if added by the user.
+
+**Endpoint**: `DELETE /group/deleteTvShow/:group_id`
+
+**Request**
+```json
+{
+  "tv_id": "string",
+  "user_id": "string"
+}
+```
+
+**Response**
+- **200 OK**: Tv show deleted successfully.
+- **403 Forbidden**: User is not a person who added tv show to group.
+
+14. **Get User's Groups**
+Retrieves all groups that the user is a member of.
+
+**Endpoint**: `GET /group/getUserGroup/:user_id`
+
+**Response**
+- **200 OK**: List of groups.   
+- **500 Internal Server Error**: If any error occurs.   
+
+14. **Check Member in Group**
+Checks if a user is a member of a group.
+
+**Endpoint**: `POST /group/checkMember/:group_id`
+
+**Request**
+```json
+{
+  "user_id": "string"
+}
+```
+**Response**
+- **200 OK**: User is a member of the group.    
+- **404 Not Found**: User is not a member of the group.
+
+15. **Leave Group**
+Leave group
+
+**Endpoint**: `DELETE /group/outGroup/:group_id`
+
+**Request**
+```json
+{
+  "user_id": "string"
+}
+```
+
+**Response**
+- **200 OK**: Left the group successfully.
+- **500 Internal Server Error**: If any error occurs. 
+
+16. **Check if User is Admin**
+Checks if a user is an admin of a group.
+
+**Endpoint**: `POST /group/checkAdmin`
+
+**Request**
+```json
+{
+  "group_id": "string",
+  "user_id": "string"
+}
+```
+
+**Response**
+- **200 OK**: User is an admin of the group.
+- **404 Not Found**: User is not an admin of the group. 
+
+---
+
+## **Review**
+
+1. **Adds a new review for a movie**
+
+**Endpoint**: `POST /reviews`
+
+**Request**
+```json
+{
+  "movie_id": "string",
+  "review_text": "string",
+  "rating": "number"
+}
+```
+
+**Response**
+- **201 OK**: Review added successfully.
+- **400 Bad Request**: Missing require field
+
+2. **Retrieves all reviews for a specific movie**
+Retrieves all reviews for a specific movie.
+
+**Endpoint**: `GET /movies/:movieId/reviews`
+
+**Response**
+- **200 OK**: List of reviews for the movie.
+
+---
+
+## **Favorite**
+
+1. **Add a Favorite**
+Adds a movie or TV show to the user's favorites list.
+
+**Endpoint**: `POST /favorites/add`
+
+**Request**
+```json
+{
+  "user_id": "string",
+  "movie_id": "string",
+  "type": "string" // Possible values: "movie" or "tv"
+}
+```
+
+**Response**
+- **201 Created**: Favorite added successfully.
+- **400 Bad Request**: Missing required fields or item already in favorites.
+
+2. **Retrieve All Favorites for a User**
+Fetches the user's favorite movies and TV shows, including details from TMDB.
+
+**Endpoint**: `GET /favorites/:user_id`
+
+**Response**
+- **200 OK**: List of user's favorite movies and TV shows.
+- **400 Bad Request**: Missing user ID.
+- **404 Not Found**: User not found.
+
+3. **Retrieve Shared Favorites by Username**
+Fetches a public list of favorites shared by a user.
+
+**Endpoint**: `GET /favorites/shared/:username`
+
+**Response**
+- **200 OK**: List of shared favorites.
+- **400 Bad Request**: Missing username.
+- **404 Not Found**: No shared favorites found for the user.
+
+4. **Toggle Sharing for a User's Favorites**
+Enables or disables sharing of the user's favorite list.
+
+**Endpoint**: `PUT /favorites/:user_id/toggle-sharing`
+
+**Request**
+```json
+{
+  "is_shared": "boolean" // true to enable sharing, false to disable
+}
+```
+**Response**
+- **200 OK**: Sharing status updated successfully.
+- **400 Bad Request**: Missing user ID or invalid `is_shared` value.
+
+5. **Remove a Favorite**
+Deletes a movie or TV show from the user's favorites list.
+
+**Endpoint**: `DELETE /favorites/:user_id/:movie_id`
+
+**Response**
+- **204 No Content**: Favorite removed successfully.    
+- **400 Bad Request**: Missing user ID or movie ID.
+- **404 Not Found**: Favorite not found.
+
+---
+
+## **Search**
+
+1. **Search for Movies**
+Searches for movies based on various criteria like title, genre, release year, and rating.
+
+**Endpoint**: `GET /search/movie`
+
+**Request**
+```json
+{
+    "title": "string",
+    "genre": "string",
+    "release_year": "integer",
+    "rating": "number"
+}
+```
+
+**Response**
+- **200 OK**: List of matching movies.
+- **400 Bad Request**: Missing query parameters.    
+- **404 Not Found**: No matching movies found.
+
+2. **Search for TV Shows**
+Searches for tv shows based on various criteria like title, genre, release year, and rating.
+
+**Endpoint**: `GET /search/tv`
+
+**Request**
+```json
+{
+    "title": "string",
+    "genre": "string",
+    "release_year": "integer",
+    "rating": "number"
+}
+```
+
+**Response**
+- **200 OK**: List of matching tv shows.
+- **400 Bad Request**: Missing query parameters.    
+- **404 Not Found**: No matching tv shows found.
