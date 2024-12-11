@@ -138,10 +138,10 @@ npm start
 ## **Link to other documentation**
 
 - [Databse Diagram](https://dbdiagram.io/d/673770eee9daa85aca9a9d17)
-
+- [Wire frame](https://www.figma.com/design/NFve6xHtYrAW2YuXggeOBh/Untitled-(Copy)?node-id=0-1&m=dev&t=XnRANchj7HR2NbwH-1)
 ## **GitHub Project Name**
 
-The project is named "Movie Web Application" in the GitHub repository, reflecting the core functionality of the app.
+The project is named "NetVerse" means digital universe of movie or serieses.
 
 ---
 
