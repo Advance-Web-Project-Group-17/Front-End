@@ -133,7 +133,7 @@ npm start
 
 ## **Link to Working Application**
 
-- [Movie App](https://mango-ground-00e600d03.4.azurestaticapps.net)
+- [NetVerse](https://mango-ground-00e600d03.4.azurestaticapps.net)
 
 ## **Link to other documentation**
 
