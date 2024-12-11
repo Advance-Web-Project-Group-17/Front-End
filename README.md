@@ -163,9 +163,9 @@ This API enables user authentication, email confirmation when register, and inte
 
 ```json
 {
-    "username": string,
-    "email": string,
-    "password": string
+    "username": "string",
+    "email": "string",
+    "password": "string"
 }
 ```
 
