@@ -34,6 +34,7 @@ jobs:
           ###### End of Repository/Build Configurations ######
         env: 
           REACT_APP_API_KEY: 01317230958149c57ec3ae676ea0850a
+          REACT_APP_BASE_URL: https://movie-app-bqcscbfwdyfudrcy.germanywestcentral-01.azurewebsites.net
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
