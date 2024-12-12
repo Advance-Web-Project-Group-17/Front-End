@@ -131,6 +131,12 @@ npm start
 - **Favorite**: You can add a movie to your favorite list by clicking the heart icon in movie or tv show card.
 - **Show Times**: You can see all the schedule of all movies shown by Finkkino and you can change the location on the top left corner of the page. (the schedual is updated everyday)
 
+## **Optional Features**
+1. **Email confirmation when signup**: When the user registers for a new account, he/she has to click the link sent in the email to confirm that email.
+2. **Administrator of a group**: One group needs at least 1 admin to manage the group.
+3. **Enter the password to delete account**: If user want to delete account, he/she has to enter password to prevent that user from delete other user's account.
+4. **Protected route**: When viewing the website without logging in, the user can just see the trending movies and reviews of the movies and showtimes.
+
 ## **Link to Working Application**
 
 - [NetVerse](https://mango-ground-00e600d03.4.azurestaticapps.net)
