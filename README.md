@@ -136,6 +136,7 @@ npm start
 2. **Administrator of a group**: One group needs at least 1 admin to manage the group.
 3. **Enter the password to delete account**: If user want to delete account, he/she has to enter password to prevent that user from delete other user's account.
 4. **Protected route**: When viewing the website without logging in, the user can just see the trending movies and reviews of the movies and showtimes.
+5. **Edit Profile**: Allow users to edit their profile when register successful or in profile page after logging in.
 
 ## **Link to Working Application**
 
