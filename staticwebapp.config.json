@@ -1,12 +1,6 @@
 {
-  "routes": [
-    {
-      "route": "/show",
-      "methods": [
-        "get"
-      ],
-      "redirect": "/",
-      "statusCode": 301
-    }
-  ]
+  "navigationFallback": {
+    "rewrite": "index.html",
+    "exclude": ["/images/*.{png,jpg,gif,ico}", "/*.{css,scss,js}"]
+  }
 }
