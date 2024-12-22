@@ -4,7 +4,10 @@
       "route": "/show",
       "methods": [
         "get"
-      ]
+      ],
+      "rewrite": "/",
+      "redirect": "/",
+      "statusCode": 301
     }
   ]
 }
