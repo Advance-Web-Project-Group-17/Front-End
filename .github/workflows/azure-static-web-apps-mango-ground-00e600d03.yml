@@ -14,6 +14,10 @@ jobs:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    env:
+      REACT_APP_API_KEY: 01317230958149c57ec3ae676ea0850a
+      REACT_APP_BASE_URL: https://movie-app-bqcscbfwdyfudrcy.germanywestcentral-01.azurewebsites.net
+      TEST_ENV_VAR: test
     steps:
       - uses: actions/checkout@v3
         with:
@@ -32,10 +36,6 @@ jobs:
           api_location: "" # Api source code path - optional
           output_location: "build" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
-        env:
-          REACT_APP_API_KEY: 01317230958149c57ec3ae676ea0850a
-          REACT_APP_BASE_URL: https://movie-app-bqcscbfwdyfudrcy.germanywestcentral-01.azurewebsites.net
-          TEST_ENV_VAR: test
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
