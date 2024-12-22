@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useMemo } from "react";
 import axios from "axios";
@@ -40,7 +39,6 @@ function App() {
     }),
     []
   );
-  
 
   // Fetch movie and TV genres and combine them
   useEffect(() => {
@@ -56,7 +54,7 @@ function App() {
             tmdbHeaders
           ),
         ]);
-  
+
         const combinedGenres = {
           ...movieGenresResponse.data.genres.reduce((acc, genre) => {
             acc[genre.id] = genre.name;
@@ -67,16 +65,15 @@ function App() {
             return acc;
           }, {}),
         };
-  
+
         setGenres(combinedGenres);
       } catch (error) {
-        console.error("Error fetching genres:", error);
+        console.error("Error fetching genres: ", error);
       }
     };
-  
+
     fetchCombinedGenres();
   }, [tmdbHeaders]); // Add tmdbHeaders to the dependency array
-  
 
   // Fetch trending movies
   useEffect(() => {
@@ -85,7 +82,7 @@ function App() {
         const response = await axios.get(
           `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`
         );
-  
+
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
           title: movie.title || movie.name,
@@ -98,18 +95,17 @@ function App() {
             ? movie.release_date.split("-")[0]
             : "N/A",
         }));
-  
+
         setTrendingMovies(moviesData);
       } catch (e) {
         console.error("Error fetching movies:", e);
       }
     };
-  
+
     if (Object.keys(genres).length > 0) {
       fetchTrendingMovies();
     }
   }, [genres, apiKey]); // Add apiKey to the dependency array
-  
 
   // Fetch movies
   useEffect(() => {
@@ -118,7 +114,7 @@ function App() {
         const response = await axios.get(
           `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}`
         );
-  
+
         const moviesData = response.data.results.map((movie) => ({
           id: movie.id,
           title: movie.title,
@@ -130,18 +126,17 @@ function App() {
             ? movie.release_date.split("-")[0]
             : "N/A",
         }));
-  
+
         setMovies(moviesData);
       } catch (e) {
         console.error("Error fetching movies:", e);
       }
     };
-  
+
     if (Object.keys(genres).length > 0) {
       fetchMovies();
     }
   }, [genres, apiKey]); // Add apiKey to the dependency array
-  
 
   useEffect(() => {
     const fetchTVShows = async () => {
@@ -150,7 +145,7 @@ function App() {
           `https://api.themoviedb.org/3/discover/tv`,
           tmdbHeaders
         );
-  
+
         const tvShowsData = response.data.results.map((tvShow) => ({
           id: tvShow.id,
           title: tvShow.name,
@@ -162,16 +157,15 @@ function App() {
             ? tvShow.release_date.split("-")[0]
             : "N/A",
         }));
-  
+
         setTVShows(tvShowsData);
       } catch (e) {
         console.error("Error fetching TV shows:", e);
       }
     };
-  
+
     fetchTVShows();
   }, [genres, tmdbHeaders]); // Add tmdbHeaders to the dependency array
-  
 
   return (
     <div className="App">
@@ -190,9 +184,9 @@ function App() {
             />
             <Route path="/delete" element={<DeleteAccountPage />} />
             <Route
-            path="/profile"
-            element={<ProfilePage setIsLoggedIn={setIsLoggedIn} />}
-          />
+              path="/profile"
+              element={<ProfilePage setIsLoggedIn={setIsLoggedIn} />}
+            />
           </Route>
           <Route path="/" element={<LandingPage movies={trendingMovies} />} />
 
@@ -202,7 +196,7 @@ function App() {
             element={<LoginPage setIsLoggedIn={setIsLoggedIn} />}
           />
           <Route path="/register" element={<RegisterPage />} />
-          
+
           <Route path="/edit" element={<EditProfilePage />} />
         </Routes>
       </Router>
